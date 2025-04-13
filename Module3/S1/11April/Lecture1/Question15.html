@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+nav a { color: gray; }
+.main a { color: green; }
+.secondary a { color: orange; }
+.main > a { font-size: 1.2em; }  
+a:hover { text-decoration: underline; }
+a:active { color: red; }
+
+a[href^="https"] { 
+    color: purple !important; 
+}
+    </style>
+</head>
+<body>
+    <nav>
+        <section class="main">
+            <a href="#">Home</a>
+            <a href="https://example.com">External</a>
+        </section>
+        <section class="secondary">
+            <div><a href="#">Nested Link</a></div>
+        </section>
+    </nav>
+</body>
+</html>
