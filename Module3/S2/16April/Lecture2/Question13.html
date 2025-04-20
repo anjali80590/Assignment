@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flex Layout</title>
+  <style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f2f2f2;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.main-container {
+  display: flex;
+  gap: 20px;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 900px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.items, .brands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.item, .brand {
+  flex: 1 1 45%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background-color: #f8f8f8;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.item img, .brand img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+p {
+  font-size: 12px;
+}
+
+a {
+  margin-top: 10px;
+  color: #007aff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+  </style>
+</head>
+
+<body>
+    <div class="main-container">
+   
+        <div class="section left">
+            <h3>Revamp your home in style</h3>
+            <div class="items">
+                <div class="item">
+                    <img src="https://i.imgur.com/6IUBvbi.png" alt="item1" />
+                    <p>Cushion covers, bedsheets & more</p>
+                </div>
+                <div class="item">
+                    <img src="https://i.imgur.com/Ebnk94V.png" alt="item2" />
+                    <p>Figurines, vases & more</p>
+                </div>
+                <div class="item">
+                    <img src="https://i.imgur.com/z1xlKOg.png" alt="item3" />
+                    <p>Home storage</p>
+                </div>
+                <div class="item">
+                    <img src="https://i.imgur.com/fxNGdKv.png" alt="item4" />
+                    <p>Lighting solutions</p>
+                </div>
+            </div>
+            <a href="#">Explore all</a>
+        </div>
+
+     
+        <div class="section right">
+            <h3>Starting ₹149 | Headphones</h3>
+            <div class="brands">
+                <div class="brand">
+                    <img src="https://i.imgur.com/sCZEZlh.png" alt="boAt" />
+                    <p>Starting ₹149 | boAt</p>
+                </div>
+                <div class="brand">
+                    <img src="https://i.imgur.com/YuWcn65.png" alt="boult" />
+                    <p>Starting ₹149 | boult</p>
+                </div>
+                <div class="brand">
+                    <img src="https://i.imgur.com/NW7xepf.png" alt="noise" />
+                    <p>Starting ₹149 | Noise</p>
+                </div>
+                <div class="brand">
+                    <img src="https://i.imgur.com/om8Eiw9.png" alt="zebronics" />
+                    <p>Starting ₹149 | Zebronics</p>
+                </div>
+            </div>
+            <a href="#">See all offers</a>
+        </div>
+    </div>
+</body>
+
+</html>
