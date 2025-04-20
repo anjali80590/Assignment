@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Image Gallery</title>
+    <style>
+        * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 20px;
+  padding: 20px;
+  width: 90%;
+  max-width: 1000px;
+}
+
+.left {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.left img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.right img {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  height: auto;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .right {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .right img {
+    width: 48%;
+  }
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="gallery">
+        <div class="left">
+            <!-- 12 circular images -->
+            <img src="https://picsum.photos/100" alt="circle" />
+            <img src="https://picsum.photos/100" alt="circle" />
+            <img src="https://picsum.photos/100" alt="circle" />
+            <img src="https://picsum.photos/100" alt="circle" />
+            <img src="https://picsum.photos/100" alt="circle" />
+            <img src="https://picsum.photos/100" alt="circle" />
+            <img src="https://picsum.photos/100" alt="circle" />
+            <img src="https://picsum.photos/100" alt="circle" />
+            <img src="https://picsum.photos/100" alt="circle" />
+            <img src="https://picsum.photos/100" alt="circle" />
+            <img src="https://picsum.photos/100" alt="circle" />
+            <img src="https://picsum.photos/100" alt="circle" />
+        </div>
+        <div class="right">
+            <!-- 4 rectangular images -->
+            <img src="https://picsum.photos/300/100" alt="rectangle" />
+            <img src="https://picsum.photos/300/100" alt="rectangle" />
+            <img src="https://picsum.photos/300/100" alt="rectangle" />
+            <img src="https://picsum.photos/300/100" alt="rectangle" />
+        </div>
+    </div>
+</body>
+
+</html>

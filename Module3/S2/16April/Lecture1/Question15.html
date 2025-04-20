@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Card Grid</title>
+    <style>
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        /* Grid Container */
+        .card-grid {
+            display: grid;
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .card-desc {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Grid Layout */
+        /* Mobile (default) - 1 column */
+        .card-grid {
+            grid-template-columns: 1fr;
+        }
+
+        /* Tablet - 2 columns */
+        @media (min-width: 600px) {
+            .card-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Desktop - 4 columns */
+        @media (min-width: 900px) {
+            .card-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Responsive Card Grid Layout</h1>
+
+    <div class="card-grid">
+        <div class="card">
+            <img class="card-img" src="https://source.unsplash.com/random/300x200/?nature" alt="Nature">
+            <div class="card-content">
+                <h3 class="card-title">Nature Beauty</h3>
+                <p class="card-desc">Explore the wonders of nature and discover breathtaking landscapes from around the
+                    world.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://source.unsplash.com/random/300x200/?city" alt="City">
+            <div class="card-content">
+                <h3 class="card-title">Urban Life</h3>
+                <p class="card-desc">Experience the vibrant energy of city life through stunning urban photography.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://source.unsplash.com/random/300x200/?technology" alt="Technology">
+            <div class="card-content">
+                <h3 class="card-title">Tech Innovations</h3>
+                <p class="card-desc">Stay updated with the latest technological advancements and digital trends.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://source.unsplash.com/random/300x200/?food" alt="Food">
+            <div class="card-content">
+                <h3 class="card-title">Culinary Delights</h3>
+                <p class="card-desc">Discover delicious recipes and food photography that will make your mouth water.
+                </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://source.unsplash.com/random/300x200/?travel" alt="Travel">
+            <div class="card-content">
+                <h3 class="card-title">Travel Adventures</h3>
+                <p class="card-desc">Get inspired to explore new destinations with these amazing travel photos.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://source.unsplash.com/random/300x200/?architecture" alt="Architecture">
+            <div class="card-content">
+                <h3 class="card-title">Modern Architecture</h3>
+                <p class="card-desc">Marvel at stunning architectural designs from contemporary buildings worldwide.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://source.unsplash.com/random/300x200/?animals" alt="Animals">
+            <div class="card-content">
+                <h3 class="card-title">Wildlife</h3>
+                <p class="card-desc">Admire beautiful wildlife photography featuring animals in their natural habitats.
+                </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://source.unsplash.com/random/300x200/?sports" alt="Sports">
+            <div class="card-content">
+                <h3 class="card-title">Sports Action</h3>
+                <p class="card-desc">Experience the thrill of sports through dynamic action photography.</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .demo {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .block {
+            display: block;
+            background: #e74c3c;
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        .inline {
+            display: inline;
+            background: #3498db;
+            padding: 5px;
+        }
+
+        .inline-block {
+            display: inline-block;
+            width: 100px;
+            height: 50px;
+            background: #2ecc71;
+            margin: 5px;
+        }
+
+        .none {
+            display: none;
+            background: #f39c12;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo">
+        <div class="block">Block Element</div>
+        <span class="inline">Inline Element</span>
+        <span class="inline">Another Inline</span>
+        <div class="inline-block">Inline-Block</div>
+        <div class="none">Hidden Element</div>
+        <button onclick="document.querySelector('.none').style.display='block'">Show Hidden</button>
+    </div>
+</body>
+
+</html>
