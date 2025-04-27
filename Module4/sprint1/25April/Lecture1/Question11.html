@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save and Load Notes</title>
+</head>
+
+<body>
+    <h1>User Notes</h1>
+
+    <textarea id="notesArea" rows="10" cols="30"></textarea><br>
+    <button id="saveButton">Save Notes</button>
+    <button id="loadButton">Load Notes</button>
+    <button id="clearButton">Clear Notes</button>
+
+    <script>
+
+        window.onload = () => {
+            const savedNotes = localStorage.getItem('userNotes');
+            if (savedNotes) {
+                document.getElementById('notesArea').value = savedNotes;
+            }
+        };
+
+      
+        document.getElementById('saveButton').addEventListener('click', () => {
+            const notes = document.getElementById('notesArea').value;
+            if (notes.trim() !== '') {  
+                localStorage.setItem('userNotes', notes);
+                alert('Notes Saved!');
+            } else {
+                alert('Please enter some notes to save.');
+            }
+        });
+
+
+        document.getElementById('loadButton').addEventListener('click', () => {
+            const savedNotes = localStorage.getItem('userNotes');
+            if (savedNotes) {
+                document.getElementById('notesArea').value = savedNotes;
+            } else {
+                alert('No notes saved yet.');
+            }
+        });
+
+        document.getElementById('clearButton').addEventListener('click', () => {
+            localStorage.removeItem('userNotes');
+            document.getElementById('notesArea').value = '';
+            alert('Notes Cleared!');
+        });
+    </script>
+</body>
+
+</html>

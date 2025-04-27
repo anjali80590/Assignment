@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Todo List</title>
+</head>
+
+<body>
+    <h1>Todo List</h1>
+    <input type="text" id="taskInput" placeholder="Add a task" />
+    <button id="addTaskButton">Add Task</button>
+    <input type="text" id="search" placeholder="Search tasks" />
+    <ul id="taskList"></ul>
+
+    <script>
+        const taskInput = document.getElementById('taskInput');
+        const addTaskButton = document.getElementById('addTaskButton');
+        const searchInput = document.getElementById('search');
+        const taskList = document.getElementById('taskList');
+
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+
+        function renderTasks(filteredTasks) {
+            taskList.innerHTML = '';
+            filteredTasks.forEach((task, index) => {
+                const taskItem = document.createElement('li');
+                taskItem.innerHTML = `
+                    <input type="checkbox" ${task.completed ? 'checked' : ''} onclick="toggleCompletion(${index})">
+                    ${task.text}
+                    <button onclick="removeTask(${index})">Delete</button>
+                `;
+                taskList.appendChild(taskItem);
+            });
+        }
+
+   
+        addTaskButton.addEventListener('click', () => {
+            const taskText = taskInput.value.trim();
+            if (taskText) {
+                tasks.push({ text: taskText, completed: false });
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+                taskInput.value = '';
+                renderTasks(tasks);
+            }
+        });
+
+       
+        function toggleCompletion(index) {
+            tasks[index].completed = !tasks[index].completed;
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            renderTasks(tasks);
+        }
+
+        function removeTask(index) {
+            tasks.splice(index, 1);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            renderTasks(tasks);
+        }
+
+      
+        searchInput.addEventListener('input', () => {
+            const searchQuery = searchInput.value.toLowerCase();
+            const filteredTasks = tasks.filter(task =>
+                task.text.toLowerCase().includes(searchQuery)
+            );
+            renderTasks(filteredTasks);
+        });
+
+        renderTasks(tasks);
+    </script>
+</body>
+
+</html>

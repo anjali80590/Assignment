@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-User Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        .cart-item input {
+            width: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Multi-User Shopping Cart</h1>
+    <div id="login-section">
+        <input type="text" id="username" placeholder="Enter your username" />
+        <button onclick="login()">Login</button>
+    </div>
+
+
+    <div id="cart-section" style="display:none;">
+        <h2>Welcome, <span id="user-name"></span></h2>
+
+        <h3>Cart</h3>
+        <div id="cart-items"></div>
+
+        <h4>Add Item to Cart</h4>
+        <input type="text" id="item-name" placeholder="Item Name" />
+        <input type="number" id="item-price" placeholder="Item Price" />
+        <input type="number" id="item-quantity" placeholder="Item Quantity" />
+        <button onclick="addItem()">Add Item</button>
+
+        <h4>Total: <span id="total-cost">0</span></h4>
+    </div>
+
+    <script>
+        let currentUser = null;
+        const loginSection = document.getElementById('login-section');
+        const cartSection = document.getElementById('cart-section');
+        const cartItemsDiv = document.getElementById('cart-items');
+        const totalCostDiv = document.getElementById('total-cost');
+        const userNameSpan = document.getElementById('user-name');
+
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            if (username === "") {
+                alert("Please enter a valid username.");
+                return;
+            }
+            currentUser = username;
+            loginSection.style.display = 'none';
+            cartSection.style.display = 'block';
+            userNameSpan.textContent = currentUser;
+
+            loadCart();
+        }
+
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem(currentUser)) || [];
+            displayCart(cart);
+        }
+
+        function displayCart(cart) {
+            cartItemsDiv.innerHTML = '';
+            let totalCost = 0;
+
+            cart.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('cart-item');
+                itemDiv.innerHTML = `
+          <span>${item.itemName} - $${item.price} x ${item.quantity} = $${item.totalCost}</span>
+          <input type="number" value="${item.quantity}" onchange="updateQuantity(${index}, this.value)" />
+          <button onclick="removeItem(${index})">Remove</button>
+        `;
+                cartItemsDiv.appendChild(itemDiv);
+                totalCost += item.totalCost;
+            });
+
+            totalCostDiv.textContent = totalCost.toFixed(2);
+        }
+
+        function addItem() {
+            const itemName = document.getElementById('item-name').value.trim();
+            const itemPrice = parseFloat(document.getElementById('item-price').value);
+            const itemQuantity = parseInt(document.getElementById('item-quantity').value);
+
+            if (!itemName || isNaN(itemPrice) || isNaN(itemQuantity) || itemQuantity <= 0) {
+                alert("Please enter valid item details.");
+                return;
+            }
+
+            const cart = JSON.parse(localStorage.getItem(currentUser)) || [];
+            const newItem = {
+                itemName: itemName,
+                price: itemPrice,
+                quantity: itemQuantity,
+                totalCost: itemPrice * itemQuantity
+            };
+
+            cart.push(newItem);
+            localStorage.setItem(currentUser, JSON.stringify(cart));
+
+            displayCart(cart); 
+        }
+
+        function updateQuantity(index, newQuantity) {
+            const cart = JSON.parse(localStorage.getItem(currentUser)) || [];
+            const item = cart[index];
+            item.quantity = parseInt(newQuantity);
+            item.totalCost = item.price * item.quantity;
+
+            localStorage.setItem(currentUser, JSON.stringify(cart));
+            displayCart(cart); 
+        }
+
+        function removeItem(index) {
+            const cart = JSON.parse(localStorage.getItem(currentUser)) || [];
+            cart.splice(index, 1);
+            localStorage.setItem(currentUser, JSON.stringify(cart));
+            displayCart(cart); 
+        }
+    </script>
+
+</body>
+
+</html>

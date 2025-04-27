@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="div1">
+        div1
+        <button id="button1">Button 1</button>
+        <div id="div2">
+            div2
+            <button id="button2">Button 2</button>
+            <div id="div3">
+                div3
+                <button id="button3">Button 3</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script>
+    document.getElementById('button3').addEventListener('click', (e) => {
+        console.log('button3 clicked')
+      
+    },true)
+    document.getElementById('div2').addEventListener('click', (e) => {
+        console.log('div2')
+    },true)
+    document.getElementById('div1').addEventListener('click',(e)=>{
+        console.log('div1')
+    })
+    document.getElementById('div3').addEventListener('click',(e)=>{
+        console.log('div3')
+    })
+
+</script>
+
+</html>

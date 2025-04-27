@@ -1,0 +1,72 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="input" value="First Task" placeholder="Write Text Here">
+    <button id="addTask">Add Task</button> <br>
+    <button id="allTask">All Task</button> <br>
+    <button id="completeTask">Complete Task</button> <br>
+    <button id="IncompleteTask">InComplete Task</button> <br>
+    <ul id="ul"></ul>
+
+</body>
+<script>
+
+    document.getElementById('addTask').addEventListener('click', () => {
+        let input = document.getElementById('input').value.trim();
+         
+        let li = document.createElement('li');
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox'
+        li.append(checkbox)
+        li.append(document.createTextNode(' ' + input))
+        document.getElementById('ul').appendChild(li)
+        //    li.innerText=input;
+        //    document.getElementById('ul').appendChild(li)
+    })
+    const ul = document.getElementById('ul');
+
+    document.getElementById('allTask').addEventListener('click', () => {
+        let li = document.querySelectorAll('li');
+        ul.innerHTML = '';
+        li.forEach((ele) => {
+            ul.appendChild(ele);
+        });
+    });
+
+    document.getElementById('completeTask').addEventListener('click', () => {
+        let li = document.querySelectorAll('li');
+        ul.innerHTML = '';
+        li.forEach((ele) => {
+            let checkbox = ele.querySelector("input[type='checkbox']");
+            if (checkbox && checkbox.checked) {
+                ul.appendChild(ele);
+            }
+        });
+    });
+
+    document.getElementById('IncompleteTask').addEventListener('click', () => {
+        let li = document.querySelectorAll('li');
+        ul.innerHTML = '';
+        li.forEach((ele) => {
+            let checkbox = ele.querySelector("input[type='checkbox']");
+            if (checkbox && !checkbox.checked) {
+                ul.appendChild(ele);
+            }
+        });
+    });
+
+</script>
+
+</html> -->
+
+
+
+
+
