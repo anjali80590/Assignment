@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="initlia">Initial</div>
+    <input type="text" id="inputcolor" placeholder="Enter color name" value="blue"><br>
+    <input type="text" id="inputtext" placeholder="Enter text content" value="textvalue"><br>
+    <button onclick="changeColor()">Change Background</button><br>
+    <button onclick="changeText()">Update Content</button><br>
+</body>
+<script>
+    function changeColor() {
+        let changeColor = document.getElementById("inputcolor").value;
+        document.getElementById("initlia").style.backgroundColor = changeColor;
+    }
+
+    function changeText() {
+        let changeText = document.getElementById("inputtext").value;
+        if (changeText.trim() === "") {
+            alert("Please enter some text");
+        } else {
+            document.getElementById("initlia").innerText = changeText;
+        }
+    }
+</script>
+
+</html>

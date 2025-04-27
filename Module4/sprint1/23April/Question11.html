@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="heading">I am h1</h1>
+    <p>i am p1</p>
+    <p>i am p2</p>
+    <div class="container">div1</div>
+    <div class="container">div2</div>
+    
+</body>
+<script>
+    let h1=document.getElementById('heading').innerHTML="Welcome to the DOM WOrld!";
+
+    let p=document.getElementsByTagName('p');
+    for(p1 of p){
+        p1.style.color='blue'
+    }
+
+    let div=document.querySelector('.container').style.backgroundColor='yellow'
+</script>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .completed{
+        text-decoration: line-through;
+    }
+</style>
+
+<body>
+    <h3>Todo List</h3>
+    <input type="text" id="input" placeholder="AddTasks">
+    <button id="addingTasks">Add Tasks</button>
+    <ul id="ul"></ul>
+</body>
+<script>
+    document.getElementById("addingTasks").addEventListener('click', () => {
+        let inputvalue = document.getElementById("input").value.trim();
+        if (inputvalue.length == 0) {
+            alert("please write text");
+            return;
+        }
+        let li = document.createElement('li');
+
+        li.textContent = inputvalue;
+    
+        let completeButton=document.createElement('button');
+        completeButton.textContent="Complete";
+        completeButton.addEventListener('click',()=>{
+            li.classList.toggle("completed")
+        })
+
+
+        let deleteButton = document.createElement('button');
+        deleteButton.innerHTML = 'Delete'
+        deleteButton.addEventListener('click', () => {
+            li.remove();
+        })
+        li.appendChild(deleteButton)
+        li.append(completeButton)
+        document.getElementById('ul').appendChild(li);
+        document.getElementById("input").value = " "
+    })
+
+        ;
+</script>
+
+</html>
+
+<!-- li.classList.toggle('classnmae') add or remove classname -->
+ <!-- textcontent get raw text content wihout hidden text  -->
+  <!-- get rendered text  -->
+   <!-- use innertext for visible styled text textcotnent for raw unstaled text -->
