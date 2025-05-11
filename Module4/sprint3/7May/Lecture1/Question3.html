@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Throttled Image Slider</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 40px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            display: inline-block;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+            width: 600px;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 0 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #slide-number {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img id="slider-image" src="https://picsum.photos/600/400?random=1" alt="Random Image">
+        <div class="buttons">
+            <button id="prev-btn">Previous</button>
+            <button id="next-btn">Next</button>
+        </div>
+        <p id="slide-number">Slide: 1</p>
+    </div>
+
+    <script>
+        const image = document.getElementById('slider-image');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const slideNumber = document.getElementById('slide-number');
+
+        let slide = 1;
+        let lastAllowedTime = 0;
+        let clickCount = 0;
+        let clickResetTimer;
+
+        function updateImage() {
+            image.src = `https://picsum.photos/600/400?random=${Date.now()}`;
+            slideNumber.textContent = `Slide: ${slide}`;
+        }
+
+        function handleClick(direction) {
+            const now = Date.now();
+
+            // Reset click count every 1 second
+            clearTimeout(clickResetTimer);
+            clickResetTimer = setTimeout(() => clickCount = 0, 1000);
+
+            clickCount++;
+
+            if (clickCount > 3) {
+                alert("Chill chill, loading it!!");
+                return;
+            }
+
+            if (now - lastAllowedTime < 1000) return;
+
+            if (direction === 'next') {
+                slide++;
+            } else {
+                slide = Math.max(1, slide - 1);
+            }
+
+            updateImage();
+            lastAllowedTime = now;
+        }
+
+        nextBtn.addEventListener('click', () => handleClick('next'));
+        prevBtn.addEventListener('click', () => handleClick('prev'));
+    </script>
+</body>
+
+</html>

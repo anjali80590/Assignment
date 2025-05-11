@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Debounced Movie Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: #f2f2f2;
+            text-align: center;
+        }
+
+        input {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        #results {
+            margin-top: 20px;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .movie-title {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>🎬 Debounced Movie Search (OMDB API)</h2>
+    <input type="text" id="search-box" placeholder="Type a movie name..." />
+    <div id="results"></div>
+
+    <script>
+        const input = document.getElementById('search-box');
+        const resultsDiv = document.getElementById('results');
+        let debounceTimer;
+
+        input.addEventListener('input', () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const query = input.value.trim();
+                if (query) {
+                    fetchMovies(query);
+                } else {
+                    resultsDiv.innerHTML = '';
+                }
+            }, 500);
+        });
+
+        async function fetchMovies(query) {
+            try {
+                const apiKey = 'ca3b3c04'; 
+                const res = await fetch(`https://www.omdbapi.com/?apikey=${apiKey}&s=${query}`);
+                const data = await res.json();
+
+                if (data.Response === "True") {
+                    displayResults(data.Search);
+                } else {
+                    resultsDiv.innerHTML = `<p>No results found.</p>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<p>Error fetching data.</p>`;
+                console.error(error);
+            }
+        }
+
+        function displayResults(movies) {
+            resultsDiv.innerHTML = '';
+            movies.forEach(movie => {
+                const titleEl = document.createElement('div');
+                titleEl.className = 'movie-title';
+                titleEl.textContent = movie.Title;
+                resultsDiv.appendChild(titleEl);
+            });
+        }
+    </script>
+
+</body>
+
+</html>

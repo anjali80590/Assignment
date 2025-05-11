@@ -3,28 +3,34 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Theme Selector</title>
+    <title>Theme Switcher</title>
     <style>
-        body.light {
-            background-color: #ffffff;
-            color: #000000;
+        /* Default styles for themes */
+        body.light-theme {
+            background-color: white;
+            color: black;
         }
 
-        body.dark {
-            background-color: #333333;
-            color: #ffffff;
+        body.dark-theme {
+            background-color: #121212;
+            color: white;
         }
 
-        body.blue {
+        body.blue-theme {
             background-color: #007BFF;
-            color: #ffffff;
+            color: white;
+        }
+
+        select {
+            margin-top: 20px;
+            padding: 5px;
+            font-size: 16px;
         }
     </style>
 </head>
 
 <body>
-    <h1>Select Theme</h1>
+    <h1>Choose a Theme</h1>
     <select id="themeSelector">
         <option value="light">Light</option>
         <option value="dark">Dark</option>
@@ -32,23 +38,28 @@
     </select>
 
     <script>
-     
-        window.onload = () => {
-            const savedTheme = sessionStorage.getItem('theme');
-            if (savedTheme) {
-                document.body.classList.add(savedTheme);
-                document.getElementById('themeSelector').value = savedTheme;
-            } else {
-                document.body.classList.add('light');
-            }
-        };
+        const themeSelector = document.getElementById('themeSelector');
 
- 
-        document.getElementById('themeSelector').addEventListener('change', (e) => {
-            const theme = e.target.value;
-            document.body.className = '';  
-            document.body.classList.add(theme);
-            sessionStorage.setItem('theme', theme);
+        // ✅ Function to apply selected theme class to <body>
+        function applyTheme(theme) {
+            document.body.className = ''; // remove existing class
+            document.body.classList.add(`${theme}-theme`);
+        }
+
+        // ✅ On page load: check sessionStorage for saved theme
+        const savedTheme = sessionStorage.getItem('selectedTheme');
+        if (savedTheme) {
+            applyTheme(savedTheme); // apply saved theme
+            themeSelector.value = savedTheme; // update dropdown value
+        } else {
+            applyTheme('light'); // default theme
+        }
+
+        // ✅ On dropdown change: apply new theme and save it
+        themeSelector.addEventListener('change', () => {
+            const selected = themeSelector.value;
+            applyTheme(selected);
+            sessionStorage.setItem('selectedTheme', selected); // save to sessionStorage
         });
     </script>
 </body>

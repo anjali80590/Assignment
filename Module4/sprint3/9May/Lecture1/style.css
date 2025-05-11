@@ -1,0 +1,67 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header, footer {
+  text-align: center;
+  background-color: #222;
+  color: white;
+  padding: 1rem;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+#character-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  background-color: #f4f4f4;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+#pagination {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  background-color: #222;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+#clock {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+#character-detail {
+  padding: 2rem;
+}
+
+.card-detail img {
+  max-width: 100%;
+  border-radius: 8px;
+}

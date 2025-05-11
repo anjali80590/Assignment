@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login, Register & Dashboard App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: auto;
+        }
+
+        input,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        img {
+            max-width: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="register-section" class="container">
+        <h2>Register</h2>
+        <input type="text" id="reg-name" placeholder="Name">
+        <input type="email" id="reg-email" placeholder="Email">
+        <input type="password" id="reg-password" placeholder="Password">
+        <button onclick="register()">Register</button>
+    </div>
+
+    <div id="login-section" class="container" style="display:none;">
+        <h2>Login</h2>
+        <input type="email" id="login-email" placeholder="Email">
+        <input type="password" id="login-password" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>
+
+    <div id="dashboard-section" class="container" style="display:none;">
+        <h2>Dashboard</h2>
+        <div id="products"></div>
+    </div>
+
+    <script>
+
+        const users = [];
+
+        function register() {
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+
+
+            const user = { name, email, password };
+            users.push(user);
+
+            alert("Registration Successful! Please log in.");
+            document.getElementById('register-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+        }
+
+
+        function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                sessionStorage.setItem("loggedIn", "true");
+                sessionStorage.setItem("user", JSON.stringify(user));
+                loadDashboard();
+            } else {
+                alert("Wrong credentials! Try again.");
+            }
+        }
+
+
+        function loadDashboard() {
+            if (sessionStorage.getItem("loggedIn") !== "true") {
+                document.getElementById('login-section').style.display = 'block';
+                return;
+            }
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('dashboard-section').style.display = 'block';
+
+
+            fetch("https://jsonplaceholder.typicode.com/posts")
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById("products");
+                    data.forEach(p => {
+                        const div = document.createElement("div");
+                        div.innerHTML = `
+              <h3>${p.title}</h3>
+              <p>${p.body}</p>
+              <hr>
+            `;
+                        container.appendChild(div);
+                    });
+                });
+        }
+
+
+        window.onload = () => {
+            if (sessionStorage.getItem("loggedIn") === "true") {
+                loadDashboard();
+            } else {
+                document.getElementById('register-section').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+
+</html>

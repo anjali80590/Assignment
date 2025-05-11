@@ -9,66 +9,96 @@
 
 <body>
     <h1>Todo List</h1>
+
+    <!-- Input for adding task -->
     <input type="text" id="taskInput" placeholder="Add a task" />
     <button id="addTaskButton">Add Task</button>
+
+    <!-- Input for searching task -->
     <input type="text" id="search" placeholder="Search tasks" />
+
+    <!-- List of tasks -->
     <ul id="taskList"></ul>
 
     <script>
+        // 1. Get elements by ID
         const taskInput = document.getElementById('taskInput');
         const addTaskButton = document.getElementById('addTaskButton');
         const searchInput = document.getElementById('search');
         const taskList = document.getElementById('taskList');
 
+        // 2. Load saved tasks from localStorage
         let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
+        // 3. Function to render tasks
+        function renderTasks(taskArray) {
+            taskList.innerHTML = ''; // Clear previous list
 
-        function renderTasks(filteredTasks) {
-            taskList.innerHTML = '';
-            filteredTasks.forEach((task, index) => {
+            taskArray.forEach((task, index) => {
                 const taskItem = document.createElement('li');
-                taskItem.innerHTML = `
-                    <input type="checkbox" ${task.completed ? 'checked' : ''} onclick="toggleCompletion(${index})">
-                    ${task.text}
-                    <button onclick="removeTask(${index})">Delete</button>
-                `;
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = task.completed;
+                checkbox.addEventListener('click', () => toggleCompletion(index));
+
+                const textNode = document.createTextNode(' ' + task.text + ' ');
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.addEventListener('click', () => removeTask(index));
+
+                taskItem.appendChild(checkbox);
+                taskItem.appendChild(textNode);
+                taskItem.appendChild(deleteButton);
+
                 taskList.appendChild(taskItem);
             });
         }
 
-   
-        addTaskButton.addEventListener('click', () => {
+        // 4. Function to add a new task
+        function addTask() {
             const taskText = taskInput.value.trim();
             if (taskText) {
-                tasks.push({ text: taskText, completed: false });
+                tasks.push({
+                    id: Date.now(), // Optional unique ID
+                    text: taskText,
+                    completed: false
+                });
                 localStorage.setItem('tasks', JSON.stringify(tasks));
                 taskInput.value = '';
                 renderTasks(tasks);
             }
-        });
+        }
 
-       
+        // 5. Function to toggle completion
         function toggleCompletion(index) {
             tasks[index].completed = !tasks[index].completed;
             localStorage.setItem('tasks', JSON.stringify(tasks));
             renderTasks(tasks);
         }
 
+        // 6. Function to remove a task
         function removeTask(index) {
             tasks.splice(index, 1);
             localStorage.setItem('tasks', JSON.stringify(tasks));
             renderTasks(tasks);
         }
 
-      
-        searchInput.addEventListener('input', () => {
-            const searchQuery = searchInput.value.toLowerCase();
-            const filteredTasks = tasks.filter(task =>
-                task.text.toLowerCase().includes(searchQuery)
+        // 7. Function to search tasks
+        function searchTasks() {
+            const query = searchInput.value.toLowerCase();
+            const filtered = tasks.filter(task =>
+                task.text.toLowerCase().includes(query)
             );
-            renderTasks(filteredTasks);
-        });
+            renderTasks(filtered);
+        }
 
+        // 8. Attach event listeners
+        addTaskButton.addEventListener('click', addTask);
+        searchInput.addEventListener('input', searchTasks);
+
+        // 9. Initial render
         renderTasks(tasks);
     </script>
 </body>
