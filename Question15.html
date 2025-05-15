@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="text">
+    <button id="addTask">Add Task</button>
+    <ul id="ul"></ul>
+</body>
+<script>
+    let input=document.getElementById('text');
+    let button=document.getElementById('addTask');
+    let ul=document.getElementById('ul');
+    button.addEventListener('click',()=>{
+        let li = document.createElement('li');
+       
+        if(input.value==''){
+            alert("write some text");
+            return;
+        }
+        li.innerText = input.value;
+        let deletebtn=document.createElement('button');
+        deletebtn.innerText='Delete';
+        deletebtn.addEventListener('click',()=>{
+            li.remove();
+            // deletebtn.remove();
+            // completebtn.remove();
+        })
+
+        let completebtn=document.createElement('button');
+        completebtn.innerText='Complete';
+        completebtn.addEventListener('click',()=>{
+            li.style.textDecoration='line-through'
+        })
+        li.appendChild(completebtn);
+        li.appendChild(deletebtn);
+        ul.appendChild(li);
+        input.value=''
+    })
+</script>
+</html>

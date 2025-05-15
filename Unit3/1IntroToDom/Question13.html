@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="color"> <br>
+    <input type="text" id="text"> <br>
+    <button id="changeBg">Change Bg</button> <br>
+    <button id="updateText">Update Text</button>
+    <div id="div">Some Text</div>
+
+</body>
+<script>
+    let inputColor = document.getElementById('color');
+    let div = document.getElementById('div');
+    let inputText = document.getElementById('text')
+    document.getElementById('changeBg').addEventListener('click', () => {
+        if (inputColor.value == '') {
+            alert("enter some color name")
+        } else {
+            div.style.backgroundColor = inputColor.value;
+        }
+    })
+    document.getElementById('updateText').addEventListener('click', () => {
+        if (inputText.value == '') {
+            alert("enter some text")
+        } else {
+            div.innerText = inputText.value
+        }
+    })
+
+</script>
+
+</html>
