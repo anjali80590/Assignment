@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <input type="text" id="search" placeholder="Search by title">
+    <select id="category">
+        <option value="">All Categories</option>
+    </select>
+    <select id="sort">
+        <option value="">Sort by Price</option>
+        <option value="asc">Low to High</option>
+        <option value="desc">High to Low</option>
+    </select>
+    <div id="count"></div>
+    <div id="products" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px"></div>
+    <script>
+        let products = [], filtered = [];
+        async function fetchData() {
+            const catRes = await fetch('https://fakestoreapi.com/products/categories');
+            const categories = await catRes.json();
+            const categorySelect = document.getElementById('category');
+            categories.forEach(c => categorySelect.innerHTML += `<option value="${c}">${c}</option>`);
+            const prodRes = await fetch('https://fakestoreapi.com/products');
+            products = await prodRes.json();
+            filtered = [...products];
+            render();
+        }
+        function render() {
+            let container = document.getElementById('products');
+            container.innerHTML = '';
+            filtered.forEach(p => {
+                container.innerHTML += `<div><img src="${p.image}" width="100"><h4>${p.title}</h4><p>$${p.price}</p></div>`;
+            });
+            document.getElementById('count').textContent = `Products Found: ${filtered.length}`;
+        }
+        function filterAndSort() {
+            const search = document.getElementById('search').value.toLowerCase();
+            const category = document.getElementById('category').value;
+            const sort = document.getElementById('sort').value;
+            filtered = products.filter(p => p.title.toLowerCase().includes(search));
+            if (category) filtered = filtered.filter(p => p.category === category);
+            if (sort === 'asc') filtered.sort((a, b) => a.price - b.price);
+            else if (sort === 'desc') filtered.sort((a, b) => b.price - a.price);
+            render();
+        }
+        document.getElementById('search').addEventListener('input', filterAndSort);
+        document.getElementById('category').addEventListener('change', filterAndSort);
+        document.getElementById('sort').addEventListener('change', filterAndSort);
+        fetchData();
+    </script>
+</body>
+
+</html>

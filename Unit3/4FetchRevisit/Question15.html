@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <form id="weatherForm">
+        <input type="text" id="city" placeholder="Enter city" required>
+        <button type="submit">Get Weather</button>
+    </form>
+    <div id="weather"></div>
+    <script>
+        const weatherForm = document.getElementById('weatherForm');
+        const cityInput = document.getElementById('city');
+        const weatherDisplay = document.getElementById('weather');
+        const API_KEY = 'YOUR_API_KEY';
+
+        weatherForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const city = cityInput.value.trim();
+            if (!city) {
+                weatherDisplay.textContent = 'Please enter a city name.';
+                return;
+            }
+            fetchWeather(city);
+        });
+
+        async function fetchWeather(city) {
+            try {
+                const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`;
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('City not found');
+                const data = await res.json();
+                weatherDisplay.textContent = `Temperature in ${data.name}: ${data.main.temp}°C, ${data.weather[0].description}`;
+            } catch (err) {
+                weatherDisplay.textContent = 'Error: ' + err.message;
+            }
+        }
+    </script>
+</body>
+
+</html>

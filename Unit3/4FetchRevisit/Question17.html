@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <form id="studentForm">
+        <input id="name" placeholder="Name" required>
+        <input id="age" placeholder="Age" type="number" required>
+        <input id="course" placeholder="Course" required>
+        <button type="submit">Add Student</button>
+    </form>
+    <ul id="studentList"></ul>
+    <script>
+        const baseUrl = 'https://mockapi.io/api/v1/students'; // Replace with your actual mockapi url
+
+        const form = document.getElementById('studentForm');
+        const list = document.getElementById('studentList');
+        let editId = null;
+
+        async function fetchStudents() {
+            const res = await fetch(baseUrl);
+            const students = await res.json();
+            list.innerHTML = '';
+            students.forEach(s => {
+                const li = document.createElement('li');
+                li.textContent = `${s.name} - ${s.age} - ${s.course}`;
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Edit';
+                editBtn.onclick = () => {
+                    editId = s.id;
+                    form.name.value = s.name;
+                    form.age.value = s.age;
+                    form.course.value = s.course;
+                };
+                const delBtn = document.createElement('button');
+                delBtn.textContent = 'Delete';
+                delBtn.onclick = async () => {
+                    await fetch(`${baseUrl}/${s.id}`, { method: 'DELETE' });
+                    fetchStudents();
+                };
+                li.appendChild(editBtn);
+                li.appendChild(delBtn);
+                list.appendChild(li);
+            });
+        }
+
+        form.onsubmit = async e => {
+            e.preventDefault();
+            const name = form.name.value.trim();
+            const age = parseInt(form.age.value);
+            const course = form.course.value.trim();
+            if (!name || !course || isNaN(age)) return alert('Fill valid data');
+            const method = editId ? 'PUT' : 'POST';
+            const url = editId ? `${baseUrl}/${editId}` : baseUrl;
+            await fetch(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, age, course })
+            });
+            editId = null;
+            form.reset();
+            fetchStudents();
+        };
+
+        fetchStudents();
+    </script>
+</body>
+
+</html>

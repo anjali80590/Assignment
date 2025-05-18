@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meme Catalog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 1rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 1rem;
+            justify-content: center;
+        }
+
+        input[type="text"],
+        select {
+            padding: 8px;
+            font-size: 1rem;
+            min-width: 180px;
+        }
+
+        button {
+            padding: 8px 15px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        label {
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+
+        #memesGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .meme-card {
+            border: 2px solid transparent;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.3s ease;
+            background: white;
+        }
+
+        .meme-card.favorite {
+            border-color: #ff4500;
+            box-shadow: 0 0 10px #ff4500aa;
+            position: relative;
+        }
+
+        .fav-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: #ff4500;
+            color: white;
+            padding: 2px 7px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 12px;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .meme-card img {
+            width: 100%;
+            object-fit: contain;
+            max-height: 140px;
+            background: #eee;
+        }
+
+        .meme-info {
+            padding: 8px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .meme-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 6px;
+            line-height: 1.1;
+            height: 2.4em;
+            /* limit title lines */
+            overflow: hidden;
+        }
+
+        .btn-fav {
+            background-color: #ff4500;
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-fav:hover {
+            background-color: #cc3700;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Meme Catalog</h1>
+
+    <div class="controls">
+        <button id="fetchBtn">Fetch Memes</button>
+        <input type="text" id="searchInput" placeholder="Search memes by name..." />
+        <select id="sortSelect">
+            <option value="name-asc">Sort: Name ↑</option>
+            <option value="name-desc">Sort: Name ↓</option>
+            <option value="width-asc">Sort: Width ↑</option>
+            <option value="width-desc">Sort: Width ↓</option>
+            <option value="height-asc">Sort: Height ↑</option>
+            <option value="height-desc">Sort: Height ↓</option>
+        </select>
+        <label><input type="checkbox" id="showFavoritesOnly" /> Show Favorites Only</label>
+    </div>
+
+    <div id="memesGrid"></div>
+
+    <script>
+        const fetchBtn = document.getElementById("fetchBtn");
+        const searchInput = document.getElementById("searchInput");
+        const sortSelect = document.getElementById("sortSelect");
+        const showFavoritesOnly = document.getElementById("showFavoritesOnly");
+        const memesGrid = document.getElementById("memesGrid");
+
+        let memes = [];
+            let favorites = new Set();
+        function loadState() {
+            const fav = localStorage.getItem("favorites");
+            if (fav) favorites = new Set(JSON.parse(fav));
+
+            const search = localStorage.getItem("searchInput");
+            if (search) searchInput.value = search;
+
+            const sort = localStorage.getItem("sortOrder");
+            if (sort) sortSelect.value = sort;
+
+            const showFavs = localStorage.getItem("showFavoritesOnly");
+            if (showFavs) showFavoritesOnly.checked = JSON.parse(showFavs);
+        }
+
+
+        function saveState() {
+            localStorage.setItem("favorites", JSON.stringify([...favorites]));
+            localStorage.setItem("searchInput", searchInput.value);
+            localStorage.setItem("sortOrder", sortSelect.value);
+            localStorage.setItem("showFavoritesOnly", JSON.stringify(showFavoritesOnly.checked));
+        }
+
+
+        async function fetchMemes() {
+            fetchBtn.disabled = true;
+            fetchBtn.textContent = "Loading...";
+            try {
+                const res = await fetch("https://api.imgflip.com/get_memes");
+                const data = await res.json();
+                if (data.success) {
+                    memes = data.data.memes;
+                    renderMemes();
+                } else {
+                    alert("Failed to fetch memes.");
+                }
+            } catch (e) {
+                alert("Error fetching memes: " + e.message);
+            }
+            fetchBtn.disabled = false;
+            fetchBtn.textContent = "Fetch Memes";
+        }
+
+
+        function toggleFavorite(id) {
+            if (favorites.has(id)) favorites.delete(id);
+            else favorites.add(id);
+            saveState();
+            renderMemes();
+        }
+
+        function renderMemes() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            const sortOrder = sortSelect.value;
+            const showFavsOnly = showFavoritesOnly.checked;
+
+            let filtered = memes;
+
+            if (showFavsOnly) {
+                filtered = filtered.filter(m => favorites.has(m.id));
+            }
+
+            if (searchTerm) {
+                filtered = filtered.filter(m => m.name.toLowerCase().includes(searchTerm));
+            }
+
+     
+            filtered.sort((a, b) => {
+                switch (sortOrder) {
+                    case "name-asc": return a.name.localeCompare(b.name);
+                    case "name-desc": return b.name.localeCompare(a.name);
+                    case "width-asc": return a.width - b.width;
+                    case "width-desc": return b.width - a.width;
+                    case "height-asc": return a.height - b.height;
+                    case "height-desc": return b.height - a.height;
+                    default: return 0;
+                }
+            });
+
+            memesGrid.innerHTML = "";
+
+            if (filtered.length === 0) {
+                memesGrid.innerHTML = "<p>No memes found.</p>";
+                return;
+            }
+
+            for (const meme of filtered) {
+                const card = document.createElement("div");
+                card.className = "meme-card";
+                if (favorites.has(meme.id)) card.classList.add("favorite");
+
+                card.innerHTML = `
+        <img src="${meme.url}" alt="${meme.name}" loading="lazy" />
+        <div class="meme-info">
+          <div class="meme-title" title="${meme.name}">${meme.name}</div>
+          <button class="btn-fav">${favorites.has(meme.id) ? "Remove Favorite" : "Add to Favorites"}</button>
+        </div>
+      `;
+
+                const btn = card.querySelector(".btn-fav");
+                btn.onclick = () => toggleFavorite(meme.id);
+
+                memesGrid.appendChild(card);
+            }
+        }
+
+        fetchBtn.addEventListener("click", fetchMemes);
+        searchInput.addEventListener("input", () => {
+            saveState();
+            renderMemes();
+        });
+        sortSelect.addEventListener("change", () => {
+            saveState();
+            renderMemes();
+        });
+        showFavoritesOnly.addEventListener("change", () => {
+            saveState();
+            renderMemes();
+        });
+
+
+        loadState();
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Notes App</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>My Notes</h2>
+    <textarea id="noteInput"></textarea><br>
+    <button onclick="saveNote()">Save Note</button>
+    <button onclick="loadNote()">Load Notes</button>
+    <button onclick="clearNote()">Clear Notes</button>
+
+    <script>
+        const input = document.getElementById('noteInput');
+
+        window.onload = function () {
+            const saved = localStorage.getItem('notes');
+            if (saved) input.value = saved;
+        };
+
+        function saveNote() {
+            const text = input.value.trim();
+            if (text) {
+                localStorage.setItem('notes', text);
+                alert('Note saved');
+            } else {
+                alert('Note is empty');
+            }
+        }
+
+        function loadNote() {
+            const saved = localStorage.getItem('notes');
+            input.value = saved || '';
+        }
+
+        function clearNote() {
+            localStorage.removeItem('notes');
+            input.value = '';
+        }
+    </script>
+</body>
+
+</html>

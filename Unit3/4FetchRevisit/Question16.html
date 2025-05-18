@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+</head>
+
+<body>
+    <form id="userForm">
+        <input id="name" placeholder="Name" required>
+        <input id="email" placeholder="Email" required type="email">
+        <button type="submit">Add User</button>
+    </form>
+    <ul id="userList"></ul>
+    <div id="editModal" style="display:none;">
+        <input id="editName" required>
+        <input id="editEmail" required type="email">
+        <button id="updateBtn">Update</button>
+        <button id="cancelBtn">Cancel</button>
+    </div>
+    <script>
+        const firebaseConfig = {
+            databaseURL: "https://your-public-firebase-url.firebaseio.com"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        const userForm = document.getElementById('userForm');
+        const userList = document.getElementById('userList');
+        const editModal = document.getElementById('editModal');
+        const editName = document.getElementById('editName');
+        const editEmail = document.getElementById('editEmail');
+        let editId = null;
+
+        userForm.onsubmit = e => {
+            e.preventDefault();
+            const name = userForm.name.value.trim();
+            const email = userForm.email.value.trim();
+            if (!name || !email) return;
+            const newUserRef = db.ref('users').push();
+            newUserRef.set({ name, email });
+            userForm.reset();
+        };
+
+        function fetchUsers() {
+            db.ref('users').on('value', snapshot => {
+                userList.innerHTML = '';
+                const users = snapshot.val();
+                for (let id in users) {
+                    const li = document.createElement('li');
+                    li.textContent = `${users[id].name} (${users[id].email})`;
+                    const editBtn = document.createElement('button');
+                    editBtn.textContent = 'Edit';
+                    editBtn.onclick = () => {
+                        editId = id;
+                        editName.value = users[id].name;
+                        editEmail.value = users[id].email;
+                        editModal.style.display = 'block';
+                    };
+                    const delBtn = document.createElement('button');
+                    delBtn.textContent = 'Delete';
+                    delBtn.onclick = () => db.ref(`users/${id}`).remove();
+                    li.appendChild(editBtn);
+                    li.appendChild(delBtn);
+                    userList.appendChild(li);
+                }
+            });
+        }
+
+        document.getElementById('updateBtn').onclick = () => {
+            if (!editId) return;
+            db.ref(`users/${editId}`).update({
+                name: editName.value.trim(),
+                email: editEmail.value.trim()
+            });
+            editModal.style.display = 'none';
+        };
+        document.getElementById('cancelBtn').onclick = () => {
+            editModal.style.display = 'none';
+        };
+
+        fetchUsers();
+    </script>
+</body>
+
+</html>

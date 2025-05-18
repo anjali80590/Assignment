@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        input,
+        button {
+            margin: 5px 0;
+            padding: 8px;
+            width: 100%;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 8px;
+            margin: 5px 0;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .done {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Todo List</h2>
+    <input type="text" id="taskInput" placeholder="Add a task">
+    <button onclick="addTask()">Add Task</button>
+    <input type="text" id="searchInput" placeholder="Search tasks" oninput="renderTasks()">
+    <ul id="taskList"></ul>
+
+    <script>
+        let tasks = JSON.parse(localStorage.getItem('todos')) || [];
+
+        function saveTasks() {
+            localStorage.setItem('todos', JSON.stringify(tasks));
+        }
+
+        function addTask() {
+            const text = document.getElementById('taskInput').value.trim();
+            if (!text) return;
+            tasks.push({ id: Date.now(), text, done: false });
+            document.getElementById('taskInput').value = '';
+            saveTasks();
+            renderTasks();
+        }
+
+        function toggleTask(id) {
+            tasks = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
+            saveTasks();
+            renderTasks();
+        }
+
+        function deleteTask(id) {
+            tasks = tasks.filter(t => t.id !== id);
+            saveTasks();
+            renderTasks();
+        }
+
+        function renderTasks() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const list = document.getElementById('taskList');
+            list.innerHTML = '';
+            tasks.filter(t => t.text.toLowerCase().includes(search)).forEach(task => {
+                const li = document.createElement('li');
+                const span = document.createElement('span');
+                span.textContent = task.text;
+                if (task.done) span.classList.add('done');
+                span.onclick = () => toggleTask(task.id);
+                const btn = document.createElement('button');
+                btn.textContent = 'X';
+                btn.onclick = () => deleteTask(task.id);
+                li.append(span, btn);
+                list.appendChild(li);
+            });
+        }
+
+        renderTasks();
+    </script>
+</body>
+
+</html>
