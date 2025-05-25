@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback Manager</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+
+        input,
+        textarea,
+        button {
+            margin: 8px 0;
+            padding: 8px;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Submit Feedback</h2>
+    <form id="feedbackForm">
+        <input type="text" id="username" placeholder="Username" required />
+        <textarea id="message" placeholder="Message" required></textarea>
+        <button type="submit">Submit Feedback</button>
+    </form>
+
+    <div class="message" id="responseMessage"></div>
+
+    <h3>All Feedback</h3>
+    <table id="feedbackTable">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Message</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+
+    <div id="editForm" class="hidden">
+        <h3>Edit Feedback</h3>
+        <input type="text" id="editUsername" required />
+        <textarea id="editMessage" required></textarea>
+        <button onclick="updateFeedback()">Update</button>
+        <button onclick="cancelEdit()">Cancel</button>
+    </div>
+
+    <script>
+        const DB_URL = "https://fir-1-3dcc3-default-rtdb.asia-southeast1.firebasedatabase.app/feedback"
+        const feedbackForm = document.getElementById("feedbackForm");
+        const responseMessage = document.getElementById("responseMessage");
+        const feedbackTableBody = document.querySelector("#feedbackTable tbody");
+
+        const editForm = document.getElementById("editForm");
+        const editUsername = document.getElementById("editUsername");
+        const editMessage = document.getElementById("editMessage");
+
+        let editId = null;
+
+            feedbackForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const username = document.getElementById("username").value.trim();
+                const message = document.getElementById("message").value.trim();
+
+                const feedback = { username, message };
+
+                try {
+                    const res = await fetch(`${DB_URL}.json`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(feedback),
+                    });
+
+                    if (!res.ok) throw new Error("Failed to submit feedback");
+
+                    feedbackForm.reset();
+                    showMessage("Feedback submitted successfully!", "success");
+                    loadFeedbacks();
+                } catch (err) {
+                    showMessage(err.message, "error");
+                }
+            });
+
+        async function loadFeedbacks() {
+            try {
+                const res = await fetch(`${DB_URL}.json`);
+                console.log(res)
+                const data = await res.json();
+                feedbackTableBody.innerHTML = "";
+
+                if (data) {
+                    Object.entries(data).forEach(([id, feedback]) => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+              <td>${feedback.username}</td>
+              <td>${feedback.message}</td>
+              <td>
+                <button onclick="openEditForm('${id}', '${feedback.username}', \`${feedback.message.replace(/`/g, "\\`")}\`)">Edit</button>
+              </td>
+            `;
+                        feedbackTableBody.appendChild(row);
+                    });
+                } else {
+                    feedbackTableBody.innerHTML = `<tr><td colspan="3">No feedback yet.</td></tr>`;
+                }
+            } catch (err) {
+                showMessage("Failed to load feedbacks", "error");
+            }
+        }
+
+
+        function showMessage(msg, type) {
+            responseMessage.textContent = msg;
+            responseMessage.className = `message ${type}`;
+        }
+
+
+        function openEditForm(id, username, message) {
+            editId = id;
+            editUsername.value = username;
+            editMessage.value = message;
+            editForm.classList.remove("hidden");
+        }
+
+        function cancelEdit() {
+            editId = null;
+            editForm.classList.add("hidden");
+        }
+
+
+        async function updateFeedback() {
+            const username = editUsername.value.trim();
+            const message = editMessage.value.trim();
+
+            if (!editId) return;
+
+            try {
+                const res = await fetch(`${DB_URL}/${editId}.json`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, message }),
+                });
+
+                if (!res.ok) throw new Error("Failed to update feedback");
+
+                showMessage("Feedback updated successfully!", "success");
+                cancelEdit();
+                loadFeedbacks();
+            } catch (err) {
+                showMessage(err.message, "error");
+            }
+        }
+
+        loadFeedbacks();
+    </script>
+</body>
+
+</html>
