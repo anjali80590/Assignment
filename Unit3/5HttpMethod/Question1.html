@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Product Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        select,
+        input {
+            padding: 8px;
+            margin-top: 5px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #results {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .loading,
+        .error {
+            margin-top: 30px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Product Search</h1>
+
+    <label for="category">Category:</label>
+    <select id="category">
+        <option value="">-- All Categories --</option>
+        <option value="electronics">Electronics</option>
+        <option value="clothing">Clothing</option>
+        <option value="books">Books</option>
+    </select>
+
+    <label for="minPrice">Minimum Price:</label>
+    <input type="number" id="minPrice" placeholder="e.g. 1000" min="0" />
+
+    <label for="maxPrice">Maximum Price:</label>
+    <input type="number" id="maxPrice" placeholder="e.g. 5000" min="0" />
+
+    <button id="searchBtn">Search</button>
+
+    <div id="loading" class="loading" style="display:none;">Loading...</div>
+    <div id="error" class="error" style="display:none;"></div>
+    <div id="results"></div>
+
+    <script>
+        const apiBaseURL = "https://6833440a464b499636fee2fb.mockapi.io/api/products";
+
+        const categorySelect = document.getElementById("category");
+        const minPriceInput = document.getElementById("minPrice");
+        const maxPriceInput = document.getElementById("maxPrice");
+        const searchBtn = document.getElementById("searchBtn");
+        const resultsDiv = document.getElementById("results");
+        const loadingDiv = document.getElementById("loading");
+        const errorDiv = document.getElementById("error");
+
+        function clearResults() {
+            resultsDiv.innerHTML = "";
+            errorDiv.style.display = "none";
+        }
+
+        function showLoading(show) {
+            loadingDiv.style.display = show ? "block" : "none";
+        }
+
+        function showError(message) {
+            errorDiv.textContent = message;
+            errorDiv.style.display = "block";
+        }
+
+        function createProductCard(product) {
+            const div = document.createElement("div");
+            div.className = "product-card";
+
+            const img = document.createElement("img");
+            img.src = product.image || "https://via.placeholder.com/150?text=No+Image";
+            img.alt = product.name;
+
+            const name = document.createElement("h3");
+            name.textContent = product.name;
+
+            const price = document.createElement("p");
+            price.textContent = `₹${product.price}`;
+
+            div.appendChild(img);
+            div.appendChild(name);
+            div.appendChild(price);
+
+            return div;
+        }
+
+        async function fetchProducts() {
+            clearResults();
+            showError("");
+            showLoading(true);
+
+            try {
+                let url = apiBaseURL;
+
+                // If category is selected, add to URL params for server filtering (exact match)
+                const category = categorySelect.value;
+                if (category) {
+                    url += `?category=${encodeURIComponent(category)}`;
+                }
+
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+
+                let products = await response.json();
+
+                // Filter by minPrice and maxPrice on client side (since mockapi doesn't support range filters)
+                const minPrice = Number(minPriceInput.value);
+                const maxPrice = Number(maxPriceInput.value);
+
+                if (!isNaN(minPrice)) {
+                    products = products.filter(p => p.price >= minPrice);
+                }
+                if (!isNaN(maxPrice)) {
+                    products = products.filter(p => p.price <= maxPrice);
+                }
+
+                if (products.length === 0) {
+                    resultsDiv.textContent = "No products found matching your criteria.";
+                } else {
+                    products.forEach(product => {
+                        const card = createProductCard(product);
+                        resultsDiv.appendChild(card);
+                    });
+                }
+            } catch (error) {
+                showError("Failed to fetch products. Please try again.");
+                console.error(error);
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        searchBtn.addEventListener("click", fetchProducts);
+    </script>
+</body>
+
+</html>
