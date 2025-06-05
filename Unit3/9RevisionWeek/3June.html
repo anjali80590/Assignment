@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Record Management</title>
+    <style>
+        body {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        form,
+        .controls,
+        table {
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            padding: 5px 10px;
+        }
+
+        .high-score {
+            background-color: white;
+
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Student Record Management</h1>
+    <form id="studentForm">
+        <input type="text" id="name" placeholder="Name" required />
+        <input type="text" id="batch" placeholder="Batch" required />
+        <input type="number" id="age" placeholder="Age" required />
+        <input type="number" id="score" placeholder="Score" required />
+        <br> <br>
+        <button type="submit">Add / Update</button>
+    </form>
+
+    <div class="controls">
+        <input type="text" id="search" placeholder="Search by name" />
+        <button id="sortAge">Sort by Age ↑</button>
+        <button id="sortScore">Sort by Score ↓</button>
+    </div>
+    <div id="summary"></div>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Batch</th>
+                <th>Age</th>
+                <th>Score</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="studentTableBody"></tbody>
+    </table>
+    <script>
+        window.onload = function () {
+            let students = [];
+            let editingIndex = null;
+            const form = document.getElementById("studentForm");
+            const tableBody = document.getElementById("studentTableBody");
+            const summary = document.getElementById("summary");
+            const search = document.getElementById("search");
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+                const name = document.getElementById("name").value.trim();
+                const batch = document.getElementById("batch").value.trim();
+                const age = Number(document.getElementById("age").value);
+                const score = Number(document.getElementById("score").value);
+                if (!name || !batch || age <= 0 || score < 0 || score > 100) {
+                    alert("Please enter valid details.");
+                    return;
+                }
+                const student = { name, batch, age, score };
+                if (editingIndex !== null) {
+                    students[editingIndex] = student;
+                    editingIndex = null;
+                } else {
+
+                    students.push(student);
+                }
+                form.reset();
+                renderTable();
+            });
+            function renderTable(data = students) {
+                tableBody.innerHTML = "";
+
+                data.forEach((student, index) => {
+                    const row = document.createElement("tr");
+                    if (student.score > 80) {
+                        row.classList.add("high-score");
+                    }
+                    row.innerHTML = `
+            <td>${student.name}</td>
+            <td>${student.batch}</td>
+            <td>${student.age}</td>
+            <td>${student.score}</td>
+            <td>
+              <button onclick="editStudent(${index})">Edit</button>
+              <button onclick="deleteStudent(${index})">Delete</button>
+            </td>
+          `;
+
+                    tableBody.appendChild(row);
+                });
+
+                updateSummary();
+            }
+            function editStudent(index) {
+                const s = students[index];
+                document.getElementById("name").value = s.name;
+                document.getElementById("batch").value = s.batch;
+                document.getElementById("age").value = s.age;
+                document.getElementById("score").value = s.score;
+                editingIndex = index;
+            }
+            function deleteStudent(index) {
+                if (confirm("Delete this student?")) {
+                    students.splice(index, 1);
+                    renderTable();
+                }
+            }
+            function updateSummary() {
+                const total = students.length;
+                const avg = total
+                    ? (students.reduce((sum, s) => sum + s.score, 0) / total).toFixed(2)
+                    : 0;
+                summary.textContent = `Total Students: ${total} | Average Score: ${avg}`;
+            }
+            search.addEventListener("input", function () {
+                const query = search.value.toLowerCase();
+                const filtered = students.filter((s) =>
+                    s.name.toLowerCase().includes(query)
+                );
+                renderTable(filtered);
+            });
+            document.getElementById("sortAge").addEventListener("click", function () {
+                students.sort((a, b) => a.age - b.age);
+                renderTable();
+            });
+            document.getElementById("sortScore").addEventListener("click", function () {
+                students.sort((a, b) => b.score - a.score);
+                renderTable();
+            });
+            window.editStudent = editStudent;
+            window.deleteStudent = deleteStudent;
+        };
+    </script>
+</body>
+
+</html>

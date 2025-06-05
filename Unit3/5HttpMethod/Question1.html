@@ -145,7 +145,7 @@
             try {
                 let url = apiBaseURL;
 
-                // If category is selected, add to URL params for server filtering (exact match)
+               
                 const category = categorySelect.value;
                 if (category) {
                     url += `?category=${encodeURIComponent(category)}`;
@@ -158,8 +158,6 @@
                 }
 
                 let products = await response.json();
-
-                // Filter by minPrice and maxPrice on client side (since mockapi doesn't support range filters)
                 const minPrice = Number(minPriceInput.value);
                 const maxPrice = Number(maxPriceInput.value);
 
@@ -185,9 +183,7 @@
                 showLoading(false);
             }
         }
-
-        searchBtn.addEventListener("click", fetchProducts);
+   searchBtn.addEventListener("click", fetchProducts);
     </script>
 </body>
-
 </html>
