@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body {
+            text-align: center;
+            padding: 20px;
+        }
+
+        #search-input {
+            padding: 10px;
+            width: 300px;
+            font-size: 16px;
+        }
+
+        #typing-info {
+            margin-top: 10px;
+        }
+
+        #name-list {
+            margin-top: 20px;
+            max-width: 600px;
+            margin-inline: auto;
+            text-align: left;
+        }
+
+        .name-item {
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        mark {
+            background-color: yellow;
+        }
+
+        #scroll-top-btn {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        #loading-text {
+            margin-top: 10px;
+            font-style: italic;
+            color: gray;
+        }
+
+        #no-match {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Search Dashboard</h1>
+    <input type="text" id="search-input" placeholder="Search names...">
+
+    <div id="typing-info">
+        Keystrokes: <span id="keystroke-count">0</span> |
+        Debounced Searches: <span id="search-count">0</span>
+    </div>
+
+    <div id="loading-text"></div>
+    <div id="name-list"></div>
+    <div id="no-match"></div>
+    <button id="scroll-top-btn">Back to Top</button>
+
+    <script>
+        const names = Array.from({ length: 250 }, (_, i) => "User " + (i + 1));
+
+        const searchInput = document.getElementById("search-input");
+        const nameList = document.getElementById("name-list");
+        const loadingText = document.getElementById("loading-text");
+        const noMatchText = document.getElementById("no-match");
+        const scrollTopBtn = document.getElementById("scroll-top-btn");
+        const keystrokeCountEl = document.getElementById("keystroke-count");
+        const searchCountEl = document.getElementById("search-count");
+
+        let keystrokes = 0;
+        let debouncedSearches = 0;
+        let debounceTimer;
+
+        searchInput.addEventListener("input", () => {
+            keystrokes++;
+            keystrokeCountEl.textContent = keystrokes;
+
+            loadingText.textContent = "Searching...";
+            noMatchText.textContent = "";
+
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                debouncedSearches++;
+                searchCountEl.textContent = debouncedSearches;
+                searchNames(searchInput.value.trim());
+                loadingText.textContent = "";
+            }, 1000);
+        });
+
+        function searchNames(query) {
+            nameList.innerHTML = "";
+            if (!query) return;
+
+            const matches = names.filter(name => name.toLowerCase().includes(query.toLowerCase()));
+
+            if (matches.length === 0) {
+                noMatchText.textContent = "No results found";
+            } else {
+                noMatchText.textContent = "";
+                matches.forEach(name => {
+                    const item = document.createElement("div");
+                    item.className = "name-item";
+
+                    const regex = new RegExp(`(${query})`, 'ig');
+                    item.innerHTML = name.replace(regex, `<mark>$1</mark>`);
+                    nameList.appendChild(item);
+                });
+            }
+        }
+
+        function throttle(func, limit) {
+            let lastCall = 0;
+            return function () {
+                const now = Date.now();
+                if (now - lastCall >= limit) {
+                    lastCall = now;
+                    func();
+                }
+            };
+        }
+
+        const toggleScrollTopBtn = throttle(() => {
+            scrollTopBtn.style.display = window.scrollY > 200 ? "block" : "none";
+        }, 500);
+
+        window.addEventListener("scroll", toggleScrollTopBtn);
+
+        scrollTopBtn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+</body>
+
+</html>
