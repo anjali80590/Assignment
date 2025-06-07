@@ -1,0 +1,224 @@
+!
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Task App</title>
+    <style>
+        body {
+            background: #eaeaea;
+            padding: 30px;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .box {
+            background: #fff;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 6px;
+        }
+
+        .done {
+            color: #888;
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="auth-area">
+        <h2>Register or Login</h2>
+        <input type="email" id="user-email" placeholder="Enter email"><br>
+        <input type="password" id="user-pass" placeholder="Create password"><br>
+        <button id="register-btn">Register</button>
+        <button id="signin-btn">Login</button>
+        <p id="auth-status"></p>
+    </section>
+
+    <section id="dashboard" class="hide">
+        <h2>Welcome to Task Board</h2>
+        <button id="exit-btn">Sign Out</button>
+
+        <h3>Create New Task</h3>
+        <input id="input-title" placeholder="Task name"><br>
+        <textarea id="input-desc" placeholder="Details..."></textarea><br>
+        <button id="save-task">Save Task</button>
+
+        <h3>View</h3>
+        <select id="task-filter">
+            <option value="all">Show All</option>
+            <option value="done">Only Completed</option>
+            <option value="todo">Only Incomplete</option>
+        </select>
+
+        <div id="list-container"></div>
+    </section>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDk6OsToNsES6q5ue13AcsRUDdSzJCwMqI",
+            authDomain: "auth-7149d.firebaseapp.com",
+            projectId: "auth-7149d",
+            storageBucket: "auth-7149d.appspot.com",
+            messagingSenderId: "332254220916",
+            appId: "1:332254220916:web:08a33fb9c5b2463f05f721"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const authUI = document.getElementById('auth-area');
+        const appUI = document.getElementById('dashboard');
+        const userEmail = document.getElementById('user-email');
+        const userPass = document.getElementById('user-pass');
+        const registerBtn = document.getElementById('register-btn');
+        const signinBtn = document.getElementById('signin-btn');
+        const signoutBtn = document.getElementById('exit-btn');
+        const status = document.getElementById('auth-status');
+        const titleInput = document.getElementById('input-title');
+        const descInput = document.getElementById('input-desc');
+        const saveBtn = document.getElementById('save-task');
+        const filterOpt = document.getElementById('task-filter');
+        const taskWrap = document.getElementById('list-container');
+
+        let uid = null;
+        let taskData = [];
+
+        registerBtn.onclick = () => {
+            createUserWithEmailAndPassword(auth, userEmail.value, userPass.value)
+                .then(r => status.textContent = "Registered successfully")
+                .catch(e => status.textContent = e.message);
+        };
+
+        signinBtn.onclick = () => {
+            signInWithEmailAndPassword(auth, userEmail.value, userPass.value)
+                .then(res => localStorage.setItem("active_uid", res.user.uid))
+                .catch(err => status.textContent = err.message);
+        };
+
+        signoutBtn.onclick = () => {
+            signOut(auth).then(() => localStorage.removeItem("active_uid"));
+        };
+
+        onAuthStateChanged(auth, (person) => {
+            if (person) {
+                uid = person.uid;
+                authUI.classList.add('hide');
+                appUI.classList.remove('hide');
+                fetchTasks();
+            } else {
+                uid = null;
+                authUI.classList.remove('hide');
+                appUI.classList.add('hide');
+                taskData = [];
+                drawTasks();
+            }
+        });
+
+        function fetchTasks() {
+            fetch("https://jsonplaceholder.typicode.com/posts?userId=" + uid)
+                .then(res => res.json())
+                .then(data => {
+                    taskData = data.map(item => ({
+                        id: item.id,
+                        title: item.title,
+                        description: item.body,
+                        done: false,
+                        time: Date.now()
+                    }));
+                    drawTasks();
+                });
+        }
+
+        function drawTasks() {
+            taskWrap.innerHTML = '';
+            let display = taskData;
+            if (filterOpt.value === 'done') display = taskData.filter(t => t.done);
+            if (filterOpt.value === 'todo') display = taskData.filter(t => !t.done);
+            display.forEach(t => {
+                const box = document.createElement('div');
+                box.className = 'box';
+                if (t.done) box.classList.add('done');
+                box.innerHTML = `
+                    <h4>${t.title}</h4>
+                    <p>${t.description}</p>
+                    <p>${new Date(t.time).toLocaleString()}</p>
+                    <button onclick="window.toggle(${t.id})">✔</button>
+                    <button onclick="window.update(${t.id})">✏️</button>
+                    <button onclick="window.remove(${t.id})">🗑</button>
+                `;
+                taskWrap.appendChild(box);
+            });
+        }
+
+        saveBtn.onclick = () => {
+            const payload = {
+                userId: uid,
+                title: titleInput.value,
+                body: descInput.value
+            };
+            fetch("https://jsonplaceholder.typicode.com/posts", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+                .then(res => res.json())
+                .then(task => {
+                    taskData.push({
+                        id: task.id,
+                        title: task.title,
+                        description: task.body,
+                        done: false,
+                        time: Date.now()
+                    });
+                    titleInput.value = '';
+                    descInput.value = '';
+                    drawTasks();
+                });
+        };
+
+        window.toggle = (id) => {
+            const item = taskData.find(t => t.id === id);
+            item.done = !item.done;
+            drawTasks();
+        };
+
+        window.update = (id) => {
+            const item = taskData.find(t => t.id === id);
+            const titleEdit = prompt("Title:", item.title);
+            const descEdit = prompt("Description:", item.description);
+            if (titleEdit && descEdit) {
+                fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ title: titleEdit, body: descEdit })
+                }).then(res => res.json())
+                    .then(() => {
+                        item.title = titleEdit;
+                        item.description = descEdit;
+                        drawTasks();
+                    });
+            }
+        };
+
+        window.remove = (id) => {
+            fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+                method: "DELETE"
+            }).then(() => {
+                taskData = taskData.filter(t => t.id !== id);
+                drawTasks();
+            });
+        };
+
+        filterOpt.onchange = drawTasks;
+    </script>
+</body>
+
+</html>
