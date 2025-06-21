@@ -1,0 +1,42 @@
+<!-- What is Debouncing?
+Definition:
+Debouncing is a technique used to ensure that a function is only executed after a certain amount of time has passed
+since the last time it was invoked. If the function is triggered again within that waiting period, the timer resets.
+
+How it works:
+Imagine you keep pressing a button repeatedly — debouncing will only allow the function to run once after you stop
+pressing for a fixed interval.
+
+Real-world use cases:
+
+Search input fields: When a user types in a search box, you don’t want to send a search query for every keypress
+immediately. Instead, wait until the user stops typing for, say, 300 milliseconds, and then send the query. This reduces
+unnecessary API calls and improves performance.
+
+Form validation: Validating input only after the user has stopped typing.
+
+Window resizing: Avoid triggering expensive resize logic repeatedly during window resizing; run it only once resizing is
+finished.
+
+Button clicks: Prevent double submission of a form by disabling the submit button briefly or running the handler only
+once after the last click.
+
+What is Throttling?
+Definition:
+Throttling limits a function to be called at most once every specified time interval regardless of how many times it is
+triggered.
+
+How it works:
+If an event fires many times (e.g., scroll or mousemove), throttling ensures the function executes only once per
+interval — for example, once every 100 milliseconds — no matter how many events occur.
+
+Real-world use cases:
+
+Scrolling events: You might want to track scroll position or lazy-load images while scrolling, but only run the code at
+a steady rate (e.g., every 200 ms) to avoid performance issues.
+
+Window resizing: Run the resize handler every 300 ms while resizing, not on every tiny change.
+
+Mouse movement: Track cursor position or animations but limit updates to avoid overwhelming the system.
+
+API rate limiting: Limit how often a user can trigger an action that sends a request to a server. -->

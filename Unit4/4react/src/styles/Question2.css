@@ -1,0 +1,63 @@
+.container {
+    padding: 20px;
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  .buttons {
+    margin-bottom: 20px;
+  }
+  
+  button {
+    padding: 10px 16px;
+    margin: 0 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .clear {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+  }
+  
+  .status {
+    font-size: 18px;
+    margin: 20px 0;
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .card {
+    border: 1px solid #ccc;
+    padding: 16px;
+    text-align: left;
+    border-radius: 8px;
+    transition: 0.3s;
+    background-color: #f9f9f9;
+  }
+  
+  .card img {
+    max-width: 100%;
+    height: 150px;
+    object-fit: contain;
+  }
+  
+  .card h3 {
+    font-size: 16px;
+    margin: 10px 0;
+  }
+  
+  .card p {
+    font-weight: bold;
+    color: #333;
+  }
+  

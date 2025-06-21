@@ -1,0 +1,49 @@
+<!-- Manipulation using DOM -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vanilla DOM Update</title>
+</head>
+
+<body>
+    <h1 id="vanilla-title">Vanilla JS Title</h1>
+    <button onclick="changeTitle()">Change Title (Vanilla JS)</button>
+    <p>DOM Updates: <span id="vanilla-count">0</span></p>
+
+    <script>
+        let count = 0;
+        function changeTitle() {
+            document.getElementById('vanilla-title').innerText = 'Updated with Vanilla JS';
+            count++;
+            document.getElementById('vanilla-count').innerText = count;
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+<!-- Manipulation using Reactjs  -->
+<script>
+    function VanillaReactComponent() {
+        const [count, setCount] = useState(0);
+        const [title, setTitle] = useState('Vanilla JS Title');
+
+        const changeTitle = () => {
+            setTitle('Updated with Vanilla JS');
+            setCount(count + 1);
+        };
+
+        return (
+            <div>
+                <h1>{title}</h1>
+                <button onClick={changeTitle}>Change Title (React)</button>
+                <p>DOM Updates: <span>{count}</span></p>
+            </div>
+        );
+    }
+</script>
+

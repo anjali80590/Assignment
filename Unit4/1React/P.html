@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="title">Title</h1>
+    <button id="changeTitle">Change Title</button>
+    <span id="count"></span>
+    
+</body>
+<script>
+    let title=document.getElementById('title');
+    let count=0;
+    document.getElementById('changeTitle').addEventListener('click',()=>{
+        title.innerText='title is Changed'
+        count++;
+        document.getElementById('count').innerText = count;
+    })
+
+</script>
+</html>

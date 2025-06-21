@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Throttled Image Slider with Spam Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+
+        img {
+            width: 600px;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #slideNumber {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Throttled Image Slider</h2>
+
+    <img id="sliderImage" src="https://picsum.photos/600/400?random=1" alt="Random Image" />
+    <div>
+        <button id="prevBtn">Previous</button>
+        <button id="nextBtn">Next</button>
+    </div>
+    <div id="slideNumber">Slide 1</div>
+
+    <script>
+        const imgElement = document.getElementById('sliderImage');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideNumberDiv = document.getElementById('slideNumber');
+
+        let slideIndex = 1;
+        let lastClickTime = 0;
+        let clickCount = 0;
+        const throttleInterval = 1000; // 1 second throttle
+
+        // To track clicks within 1 second window for spam detection
+        let clickTimestamps = [];
+
+        function updateImage() {
+            // Use slideIndex as a seed to get different images
+            imgElement.src = `https://picsum.photos/600/400?random=${slideIndex}`;
+            slideNumberDiv.textContent = `Slide ${slideIndex}`;
+        }
+
+        function handleClick(direction) {
+            const now = Date.now();
+
+            // Remove timestamps older than 1 second from clickTimestamps
+            clickTimestamps = clickTimestamps.filter(ts => now - ts < 1000);
+
+            // Add current timestamp
+            clickTimestamps.push(now);
+
+            if (clickTimestamps.length > 3) {
+                alert("Chill chill, loading it!!");
+                return; // Don't do anything else on spam click
+            }
+
+            // Throttle logic: check last allowed click time
+            if (now - lastClickTime < throttleInterval) {
+                // Ignore this click because throttling
+                return;
+            }
+
+            // Update last allowed click time
+            lastClickTime = now;
+
+            // Update slideIndex based on direction
+            if (direction === 'next') {
+                slideIndex++;
+            } else if (direction === 'prev') {
+                slideIndex = slideIndex > 1 ? slideIndex - 1 : 1; // Prevent going below 1
+            }
+
+            updateImage();
+        }
+
+        prevBtn.addEventListener('click', () => handleClick('prev'));
+        nextBtn.addEventListener('click', () => handleClick('next'));
+
+    </script>
+
+</body>
+
+</html>

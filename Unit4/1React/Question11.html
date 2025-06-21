@@ -1,0 +1,49 @@
+<!-- Declartivee Approach  -->
+ <!-- focus on output not on the process or how to constrcut it  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    </head>
+    
+    <body>
+        <div id="root"></div>
+    
+        <script type="text/babel">
+            function App() {
+                return <div> hello world</div>
+            }
+            let root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(<App />);
+        </script>
+</body>
+</html>
+
+
+
+<!-- Declarative Approach  -->
+ <!-- focus on the process excitly telling browser  every step  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <div id="root"></div>
+   <script>
+    let p = document.createElement('p');
+    p.innerText = 'hello world';
+    document.getElementById('root').appendChild(p);
+</script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Dynamic SPA with React</title>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        function App() {
+            const [page, setPage] = useState("home");
+
+            const getPageContent = () => {
+                if (page === "home") return <div className="page">Welcome to Home</div>;
+                if (page === "about") return <div className="page">About Us</div>;
+                if (page === "contact") return <div className="page">Contact Us</div>;
+                return <div className="page">Page Not Found</div>;
+            };
+
+            return (
+                <div>
+                    <nav>
+                        <button
+                            className={page === "home" ? "active" : ""}
+                            onClick={() => setPage("home")}
+                        >
+                            Home
+                        </button>
+                        <button
+                            className={page === "about" ? "active" : ""}
+                            onClick={() => setPage("about")}
+                        >
+                            About
+                        </button>
+                        <button
+                            className={page === "contact" ? "active" : ""}
+                            onClick={() => setPage("contact")}
+                        >
+                            Contact
+                        </button>
+                    </nav>
+
+                    {getPageContent()}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Debounced Movie Search with OMDB</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        #searchBox {
+            width: 300px;
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        #results {
+            margin-top: 20px;
+        }
+
+        .movie-title {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Search Movies (OMDB API)</h2>
+    <input type="text" id="searchBox" placeholder="Type movie name..." autocomplete="off" />
+
+    <div id="results"></div>
+
+    <script>
+        const searchBox = document.getElementById('searchBox');
+        const resultsDiv = document.getElementById('results');
+        let debounceTimeout = null;
+
+        const API_KEY = 'eea295fa'; // Your OMDB API key
+
+        searchBox.addEventListener('input', () => {
+            clearTimeout(debounceTimeout);
+
+            debounceTimeout = setTimeout(() => {
+                const query = searchBox.value.trim();
+
+                if (!query) {
+                    resultsDiv.innerHTML = '';
+                    return;
+                }
+
+                fetchMovies(query);
+            }, 500);
+        });
+
+        function fetchMovies(query) {
+            const url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(query)}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.Response === "True") {
+                        displayResults(data.Search);
+                    } else {
+                        resultsDiv.innerHTML = `<p>No movies found.</p>`;
+                    }
+                })
+                .catch(error => {
+                    resultsDiv.innerHTML = `<p>Error fetching data.</p>`;
+                    console.error('Fetch error:', error);
+                });
+        }
+
+        function displayResults(movies) {
+            resultsDiv.innerHTML = movies
+                .map(movie => `<div class="movie-title">${movie.Title} (${movie.Year})</div>`)
+                .join('');
+        }
+    </script>
+</body>
+
+</html>
