@@ -89,11 +89,13 @@ import Question12 from './Components/Question12'
 import Question13 from './Components/Question13'
 import Question15 from './Components/Question15'
 import Form from './Components/Question16/Form'
+import P from './P'
 
 function App() {
   return (
     <div>
-   <Form/>
+   {/* <Form/> */}
+  <P/>
     </div>
   )
 }
