@@ -35,6 +35,7 @@ function Question2() {
             Clear Products
           </button>
         )}
+     
       </div>
 
       {loading && <p className="status">Loading...</p>}

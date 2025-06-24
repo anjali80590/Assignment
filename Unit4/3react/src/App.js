@@ -9,8 +9,8 @@ function App() {
   return (
     <div>
       {/* <Question11 /> */}
-      {/* <P/> */}
-      <Question12 />
+      <P/>
+      {/* <Question12 /> */}
       {/* <Question13 /> */}
       {/* <Question14 /> */}
       {/* <Question15 /> */}

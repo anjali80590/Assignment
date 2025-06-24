@@ -7,8 +7,7 @@ function App() {
   return (
     <div>
       {/* <Question1/> */}
-      {/* <P/> */}
-      <Question2/>
+      {/* <Question2/> */}
       {/* <Question3/> */}
       
     </div>

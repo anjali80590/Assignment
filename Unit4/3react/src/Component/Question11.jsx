@@ -1,56 +1,60 @@
 import React, { useState } from "react";
 
-function Question11() {
-  const [taskInput, setTaskInput] = useState("");
-  const [taskList, setTaskList] = useState([]);
+function TodoList() {
+  const [tasks, setTasks] = useState([]);
+  const [title, setTitle] = useState("");
 
   const addTask = () => {
-    const trimmed = taskInput.trim();
-    if (trimmed === "") return;
-    setTaskList([
-      ...taskList,
-      { id: Date.now(), text: trimmed, completed: false },
-    ]);
-    setTaskInput("");
+    const trimmedTitle = title.trim();
+    if (trimmedTitle === "") return;
+
+    const newTask = {
+      id: Date.now(), 
+      title: trimmedTitle,
+      completed: false,
+    };
+
+    setTasks([...tasks, newTask]);
+    setTitle("");
   };
 
   const toggleComplete = (id) => {
-    const updated = taskList.map((task) =>
+    const updatedTasks = tasks.map((task) =>
       task.id === id ? { ...task, completed: !task.completed } : task
     );
-    setTaskList(updated);
+    setTasks(updatedTasks);
   };
 
   const deleteTask = (id) => {
-    const updated = taskList.filter((task) => task.id !== id);
-    setTaskList(updated);
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
   };
 
   return (
     <div>
       <h2>To-Do List</h2>
-
       <input
         type="text"
+        value={title}
         placeholder="Enter task"
-        value={taskInput}
-        onChange={(e) => setTaskInput(e.target.value)}
+        onChange={(e) => setTitle(e.target.value)}
       />
-
       <button onClick={addTask}>Add Task</button>
 
       <ul>
-        {taskList.map((task) => (
+        {tasks.map((task) => (
           <li key={task.id}>
             <span
-              onClick={() => toggleComplete(task.id)}
               style={{
-                textDecoration: task.completed ? "line-through" : "none",
-                cursor: "pointer",
+                textDecoration: task.completed ? "line-through" : "none", 
+                marginRight: 10,
               }}
             >
-              {task.text}
+              {task.title}
             </span>
+            <button onClick={() => toggleComplete(task.id)}>
+              {task.completed ? "InComplete" : "Complete"}
+            </button>
             <button onClick={() => deleteTask(task.id)}>Delete</button>
           </li>
         ))}
@@ -59,4 +63,4 @@ function Question11() {
   );
 }
 
-export default Question11;
+export default TodoList;

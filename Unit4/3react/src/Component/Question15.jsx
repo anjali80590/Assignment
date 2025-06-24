@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function Question15() {
-  const [filter, setFilter] = useState("All");
-
+  const [filterby, setFilterBy] = useState("all");
+  const [filteredStudents, setFilteredStudents] = useState([]);
   const [students, setStudents] = useState([
     { id: 1, name: "Anjali", present: true },
     { id: 2, name: "Ravi", present: false },
@@ -10,49 +10,42 @@ function Question15() {
     { id: 4, name: "Arjun", present: false },
     { id: 5, name: "Maya", present: true },
   ]);
-
-  const toggleAttendance = (id) => {
+  function handlePresent(id) {
     const updated = students.map((student) =>
       student.id === id ? { ...student, present: !student.present } : student
     );
     setStudents(updated);
-  };
+  }
+  const presentCounter = students.filter((student) => student.present).length;
+  useEffect(() => {
+    let result = [...students];
 
-  const filteredStudents = students.filter((student) => {
-    if (filter === "All") return true;
-    if (filter === "Present") return student.present;
-    if (filter === "Absent") return !student.present;
-    return true;
-  });
+    if (filterby === "present") {
+      result = result.filter((student) => student.present);
+    } else if (filterby === "absent") {
+      result = result.filter((student) => !student.present);
+    }
 
-  const presentCount = students.filter((s) => s.present).length;
+    setFilteredStudents(result);
+  }, [filterby, students]);
 
   return (
     <div>
-      <h2>Attendance Manager</h2>
-
-      <label>Filter: </label>
-      <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-        <option value="All">All</option>
-        <option value="Present">Present</option>
-        <option value="Absent">Absent</option>
+      <h1>Student Attendance</h1>
+      <p>Present Count: {presentCounter}</p>
+      <select value={filterby} onChange={(e) => setFilterBy(e.target.value)}>
+        <option value="all">All</option>
+        <option value="present">Present</option>
+        <option value="absent">Absent</option>
       </select>
-
-      <p>Total Present: {presentCount}</p>
 
       <ul>
         {filteredStudents.map((student) => (
           <li key={student.id}>
-            <span
-              style={{
-                color: student.present ? "green" : "red",
-                fontWeight: "bold",
-                marginRight: "10px",
-              }}
-            >
-              {student.name} - {student.present ? "Present" : "Absent"}
-            </span>
-            <button onClick={() => toggleAttendance(student.id)}>Toggle</button>
+            <span style={{ marginRight: "1rem" }}>{student.name}</span>
+            <button onClick={() => handlePresent(student.id)}>
+              {student.present ? "Present" : "Absent"}
+            </button>
           </li>
         ))}
       </ul>
