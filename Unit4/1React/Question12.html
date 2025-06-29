@@ -3,29 +3,25 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>React Hello World</title>
-    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 
 <body>
     <div id="root"></div>
     <script type="text/babel">
-      function App(){
-        return(
-            <ul>
-                <li>React</li>
-                <li>Javascript</li>
-                <li>CSS</li>
-                </ul>
-        )
-      }
-    
-      let root=ReactDOM.createRoot(document.getElementById('root'));
-      root.render(<App/>)
+        function App() {
+            let items = ['react', 'javascript', 'css'];
+            return (
+                <div>
+                    {items.map((item) => (
+                        <li>{item}</li>
+                    ))}
+                </div>
+            )
+        }
+
     </script>
-    
 </body>
 
 </html>

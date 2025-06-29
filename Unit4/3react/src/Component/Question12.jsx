@@ -25,6 +25,7 @@ function TaskManager() {
       )
     );
   }
+  // reactsate update are ashcyours sometimes the value of tassk may not be lastest 
   function deleteTask(id) {
     setTasks((prev) => prev.filter((task) => task.id !== id));
   }

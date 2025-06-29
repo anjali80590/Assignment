@@ -1,3 +1,18 @@
+#  1 intro to React with jsx and babel 
+# 2 undertanding component props and virtual dom 
+# 3 state management technique and usestate 
+# 4 react with api and axios library 
+#  5  useEffect  hook
+# 6 React lifecycle Methods 
+# 7 Context API in react 
+# 8 Exploring routing in react 
+
+# 9 useref and aplying pagination in reactjs 
+# 10 advance state management with userreducer 
+# 11intordcution to redux
+# 12 advance redux and middle ware
+
+
 # ReactJS Interview Notes
 
 What is ReactJS?
@@ -13,6 +28,41 @@ Why ReactJS?
 Is React a Library or Framework?
 # React is a JavaScript library (not a full framework).
 # You can combine it with routing (React Router), state management (Redux, Context API), etc., to make it act like a framework.
+
+File and Folder structure 
+# node_modules: Contains all downloaded npm packages your project depends on; auto-created after installation.
+# package.json: Holds project name, scripts, and dependency list required to run the app.
+# package-lock.json: Automatically generated file that locks exact versions of installed packages for consistency.
+# npm install: Installs all dependencies listed in package.json and creates node_modules and package-lock.json.
+
+# A Single Page Application is a web app that loads a single HTML page
+# and dynamically updates the content without reloading the entire page.
+# This provides a faster, smoother user experience.
+
+# Library: A set of tools you call when needed. You control the flow. (e.g., React)
+#  Framework: It defines the structure and controls the flow. You fill in specific parts. (e.g., Angular, Next.js)
+
+🔹 Why use React for SPA?
+# - React uses a virtual DOM for fast UI updates.
+# - Component-based architecture makes code reusable and maintainable.
+# - React Router enables client-side routing (navigation without page reloads).
+
+# 🔵 SPA Rendering Types
+✅ Client-Side Rendering (CSR)
+# - Page renders in the browser after JavaScript loads.
+# - Initially shows a blank page, then fills content via JavaScript.
+# - Slower initial load on slow networks.
+# - Not ideal for SEO (search engines might not see dynamic content).
+# - Very fast navigation after the first load.
+# - Common in Create React App and most SPAs.
+
+✅ Server-Side Rendering (SSR)
+# - Page is pre-rendered on the server before being sent to the browser.
+# - Content is visible immediately (better first impression).
+# - Faster initial load, especially for new visitors.
+# - Excellent for SEO — search engines can crawl HTML content directly.
+# - Best for content-heavy or SEO-focused sites (e.g., blogs, e-commerce).
+# - Commonly used with Next.js (React framework).
 
 Declarative vs Imperative
 # Declarative: You describe what the UI should look like. (e.g., JSX)
@@ -154,7 +204,7 @@ Default Props
 hooks
 # hooks are function that let use state and lifecycle features in functional components 
 # only works inside functional component and or custom hooks 
-
+# <!-- increment count and render react reload varaible component rerender refresh data is gone usestae capable why can'use varible in react  -->
 useState Hook 
 # use to add state to functional component 
 # usestate return an array  current state and a function to update 
@@ -168,3 +218,97 @@ useffect hook
 # if depencdy array is empty it runs only once 
 
 # react uses camelcase onClick
+
+
+React lifecycle 
+#The React Lifecycle refers to the series of phases that a component goes through from creation to removal in the DOM.
+Three Phases 
+Mounting: When a component is first created and added to the DOM.
+Updating: When a component re-renders due to state or props changes.
+Unmounting: When a component is removed from the DOM (cleanup happens here)
+# useEffect(() => {
+#   ✅ Mounting logic here
+#   return () => {
+#🔴 Unmounting logic here };}, []); // Runs only once
+# useEffect(() => {
+#    🟡 Updating logic when 'count' changes
+# }, [count]);
+
+
+
+Axios 
+# Axios is a JavaScript library used to send and receive data from APIs using HTTP methods like GET, POST, PUT, and DELETE.
+# easy syntax autmocally convert into json handles erros timeout easily 
+# Method	Purpose
+# axios.get(url)	Fetch data (read)
+# axios.post(url, data)	Create data (send)
+# axios.put(url, data)	Update data
+# axios.delete(url) delete data 
+
+
+
+Prop Drilling 
+#  Prop Drilling means passing data (props) from parent to child to grandchild 
+#    and so on, even if intermediate components don't need that data.
+#  It creates tightly coupled components.
+#  Difficult to maintain and update in large applications.
+# Small changes in component structure can break the entire data flow.
+
+CONTEXT API
+
+Context API
+#  is a React feature used to share state/data globally across components
+#without manually passing props at every level.
+#  It solves the problem of prop drilling.
+
+ Steps to use Context API:
+# 1. Create a context using createContext()
+# 2. Wrap the component tree with Context.Provider and pass value
+#  3. Use useContext() in any child to access the value
+
+Benefits:
+#  No prop drilling ,Centralized and clean state management, Better scalability and readability
+
+CHILDREN PROP
+# children' is a special prop in React that represents any nested elements 
+#  passed inside a component's opening and closing tags.
+# Used to create wrapper/layout components like Card, Box, Modal etc.
+
+Benefits:
+#  Makes components reusable and composable
+#  Flexible to render dynamic JSX inside other components
+#  Helps create layouts and wrappers without hardcoding content
+
+
+8 REACT ROUTER 
+# It allows you to create single-page applications (SPA) with multiple views or pages, without reloading the entire page when the URL changes.
+
+1️⃣ BrowserRouter
+# Used to wrap the entire application to enable routing functionality.
+# It must be placed at the top level of the app to handle route changes.
+# It listens to the URL and renders the appropriate component.
+
+2️⃣ Routes and Route
+# Routes is a container that holds multiple Route components.
+# Route is used to map a specific path to a specific component.
+# The path attribute defines the URL path.
+# The element attribute defines which component should be shown.
+# A wildcard path like star is used to catch all unknown routes.
+
+3️⃣ Link and NavLink
+# Link is used to navigate between different routes without refreshing the page.
+# NavLink works like Link but allows highlighting the currently active link.
+# Both are used to create navigation menus or buttons.
+
+4️⃣ useNavigate hook
+# useNavigate is a hook that allows navigation programmatically.
+# It is commonly used after events like login, form submission, or button click.
+# It returns a function which can be called with the target path.
+
+5️⃣ useParams hook
+# useParams is a hook that lets you access dynamic parameters from the URL.
+# It is useful when a route contains a variable part like an id or slug.
+# It returns an object containing key-value pairs of the dynamic segments.
+
+Dynamic Routing
+# Allows routes with dynamic segments (e.g., /product/:id) to load specific conte

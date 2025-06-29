@@ -84,8 +84,10 @@ function Form() {
       </form>
 
       <div className="product-list">
+        {/* dont know how many products will be there  */}
+        {/* ...p for getting all values of products  */}
         {products.map((p, i) => (
-          <ProductCard key={i} {...p} />
+          <ProductCard key={i} {...p} /> //spread all field as indidual props , pass as one object 
         ))}
       </div>
     </div>

@@ -1,60 +1,47 @@
-import React, { useState } from "react";
-import '../styles/Question2.css'
-function Question2() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+import React, { useState } from 'react'
 
-  const fetchProducts = async () => {
+function Question2() {
+  let[products,setProducts]=useState([])
+  let[error,setError]=useState('')
+  let[loading,setLoading]=useState(false);
+
+  async function fetchProducts(){
     setLoading(true);
-    setError("");
-    try {
-      const res = await fetch("https://fakestoreapi.com/products");
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
-      const data = await res.json();
+    try{
+      let response=await fetch('https://fakestoreapi.com/products');
+      let data=await response.json();
       setProducts(data);
-    } catch (err) {
-      setError("Failed to load products. Please try again.");
-    } finally {
+    }
+    catch(err){
+      setError('error in fetching');
+    }
+    finally{
       setLoading(false);
     }
-  };
-
-  const clearProducts = () => {
-    setProducts([]);
-  };
-
+  }
+  function clearProducts(){
+    setProducts([])
+  }
   return (
-    <div className="container">
-      <div className="buttons">
-        <button onClick={fetchProducts}>Load Products</button>
-        {products.length > 0 && (
-          <button onClick={clearProducts} className="clear">
-            Clear Products
-          </button>
-        )}
-     
-      </div>
-
-      {loading && <p className="status">Loading...</p>}
-      {error && <p className="status error">{error}</p>}
-      {!loading && products.length === 0 && !error && (
-        <p className="status">No products available.</p>
-      )}
-
-      <div className="grid">
-        {products.map((product) => (
-          <div key={product.id} className="card">
-            <img src={product.image} alt={product.title} />
-            <h3>{product.title}</h3>
-            <p>₹{product.price}</p>
-          </div>
-        ))}
+    <div>
+      <h1>Product Card</h1>
+      {error &&<p>{error}</p>}
+      {loading && <p>Loading ...</p>}
+      <button onClick={fetchProducts}> Fetch Products</button>
+      <button onClick={clearProducts}>Clear Products</button>
+      <div>
+        {
+          products.map((product)=>(
+            <div>
+              <div>{product.title}</div>
+              <div>{product.price}</div>
+              <img style={{width:'200px'}} src={product.image}/>
+              </div>
+          ))
+        }
       </div>
     </div>
-  );
+  )
 }
 
-export default Question2;
+export default Question2

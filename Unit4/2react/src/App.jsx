@@ -1,34 +1,17 @@
-// import React, { useState } from "react";
-// import "./App.css";
+import React from 'react'
+// import P from './Components/P'
+import UserCard from './Components/UserCard'
 
-// function App() {
-//   const [page, setPage] = useState("home");
+function App() {
+  return (
+    <div>
+      {/* <P/> */}
+      <UserCard/>
+    </div>
+  )
+}
 
-//   const renderPage = () => {
-//     switch (page) {
-//       case "home":
-//         return <h2 className="page">Welcome to Home</h2>;
-//       case "about":
-//         return <h2 className="page">About Us</h2>;
-//       case "contact":
-//         return <h2 className="page">Contact Us</h2>;
-//       default:
-//         return <h2 className="page">Page Not Found</h2>;
-//     }
-//   };
-
-//   return (
-//     <div className="App">
-//       <nav className="navbar">
-//         <button onClick={() => setPage("home")}>Home</button>
-//         <button onClick={() => setPage("about")}>About</button>
-//         <button onClick={() => setPage("contact")}>Contact</button>
-//       </nav>
-//       <main>{renderPage()}</main>
-//     </div>
-//   );
-// }
-
+export default App
 // // export default App;
 // import React from "react";
 // import Question11 from "./Components/Question11";
@@ -83,21 +66,20 @@
 // export default App;
 
 
-import React from 'react'
-import Question11 from './Components/Question11'
-import Question12 from './Components/Question12'
-import Question13 from './Components/Question13'
-import Question15 from './Components/Question15'
-import Form from './Components/Question16/Form'
-import P from './P'
+// import React from 'react'
+// // import Question11 from './Components/Question11'
+// // import Question12 from './Components/Question12'
+// // import Question13 from './Components/Question13'
+// // import Question15 from './Components/Question15'
+// // import Form from './Components/Question16/Form'
+// import P from './P'
 
-function App() {
-  return (
-    <div>
-   {/* <Form/> */}
-  <P/>
-    </div>
-  )
-}
+// function App() {
+//   return (
+//     <div>
+//    {/* <Form/> */}
+//     </div>
+//   )
+// }
 
-export default App
+// export default App

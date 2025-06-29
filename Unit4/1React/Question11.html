@@ -1,6 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>React Virtual DOM Update Counter</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script>
+        let { useState } = React;
+        function App() {
+            let [count, setCount] = useState(0);
+            return (
+                React.createElement('div', null,
+                    React.createElement('button', { onClick: () => setCount(count + 1) }, 'IncrementCount'),
+                    React.createElement('p',null,'count value is ',count )
+                )
+            )
+        }
+        let root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(React.createElement(App))
+    </script>
+</body>
+
+</html>
+
 <!-- Declartivee Approach  -->
  <!-- focus on output not on the process or how to constrcut it  -->
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -22,13 +53,13 @@
             root.render(<App />);
         </script>
 </body>
-</html>
+</html> -->
 
 
 
-<!-- Declarative Approach  -->
+<!-- Impreative Approach  -->
  <!-- focus on the process excitly telling browser  every step  -->
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -44,6 +75,5 @@
 </script>
 </body>
 </html>
-
-
+ -->
 

@@ -26,24 +26,42 @@
 
 
 
-<!-- Manipulation using Reactjs  -->
-<script>
-    function VanillaReactComponent() {
-        const [count, setCount] = useState(0);
-        const [title, setTitle] = useState('Vanilla JS Title');
+<!DOCTYPE html>
+<html lang="en">
 
-        const changeTitle = () => {
-            setTitle('Updated with Vanilla JS');
-            setCount(count + 1);
-        };
+<head>
+    <meta charset="UTF-8">
+    <title>React Virtual DOM Update Counter</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
 
-        return (
-            <div>
-                <h1>{title}</h1>
-                <button onClick={changeTitle}>Change Title (React)</button>
-                <p>DOM Updates: <span>{count}</span></p>
-            </div>
-        );
-    }
-</script>
+<body>
+    <div id="root"></div>
 
+    <script type="text/babel">
+        function VanillaReactComponent() {
+            const [count, setCount] = React.useState(0);
+            const [title, setTitle] = React.useState('Vanilla JS Title');
+
+            const changeTitle = () => {
+                setTitle('Updated with React');
+                setCount(count + 1);
+            };
+
+            return (
+                <div>
+                    <h1>{title}</h1>
+                    <button onClick={changeTitle}>Change Title (React)</button>
+                    <p>DOM Updates: <span>{count}</span></p>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<VanillaReactComponent />);
+    </script>
+</body>
+
+</html>
