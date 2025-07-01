@@ -1,40 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function Question4() {
   const [time, setTime] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
+  const [running, setRunning] = useState(false);
   const [target, setTarget] = useState(10);
 
   useEffect(() => {
-    let interval;
-    if (isRunning) {
-      interval = setInterval(() => {
-        setTime((prev) => {
-          if (prev + 1 === target) {
+    let timer;
+
+    if (running) {
+      timer = setInterval(() => {
+        setTime((prevTime) => {
+          const newTime = prevTime + 1;
+          if (newTime === target) {
             console.log("🎵 Play sound");
           }
-          return prev + 1;
+          return newTime;
         });
       }, 1000);
     }
-    return () => clearInterval(interval);
-  }, [isRunning, target]);
+
+    return () => clearInterval(timer);
+  }, [running, target]);
 
   return (
     <div style={{ padding: 20 }}>
-      <p>Time: {time}s</p>
+      <h3>Time: {time}s</h3>
+
       <input
         type="number"
         value={target}
         onChange={(e) => setTarget(Number(e.target.value))}
+        placeholder="Set target time"
+        style={{ marginRight: 10 }}
       />
-      <button onClick={() => setIsRunning(true)}>Start</button>
-      <button onClick={() => setIsRunning(false)}>Stop</button>
+
+      <button onClick={() => setRunning(true)}>Start</button>
+      <button onClick={() => setRunning(false)} style={{ marginLeft: 5 }}>
+        Stop
+      </button>
       <button
         onClick={() => {
           setTime(0);
-          setIsRunning(false);
+          setRunning(false);
         }}
+        style={{ marginLeft: 5 }}
       >
         Reset
       </button>

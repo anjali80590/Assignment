@@ -1,5 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
+// Common corrections
 const corrections = {
   teh: "the",
   recieve: "receive",
@@ -8,37 +9,39 @@ const corrections = {
   thier: "their",
 };
 
-function CorrectedText({ text }) {
-  const words = text.split(" ");
-  let correctionCount = 0;
+function Question4() {
+  const [inputText, setInputText] = useState("");
 
-  const corrected = words.map((word) => {
+  // Split text into words
+  const words = inputText.split(" ");
+  let count = 0;
+
+  // Replace misspelled words
+  const correctedWords = words.map((word) => {
     if (corrections[word]) {
-      correctionCount++;
+      count++;
       return corrections[word];
     }
     return word;
   });
 
-  return (
-    <>
-      <p>Preview: {corrected.join(" ")}</p>
-      <p>Corrections Made: {correctionCount}</p>
-    </>
-  );
-}
-
-function Question4() {
-  const [inputText, setInputText] = useState("");
+  const correctedText = correctedWords.join(" ");
 
   return (
-    <div style={{ padding: 10, border: "1px solid black", marginBottom: 10 }}>
+    <div style={{ border: "1px solid black", padding: "10px", width: "300px" }}>
       <input
+        type="text"
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
         placeholder="Type something..."
+        style={{ width: "100%", marginBottom: "10px" }}
       />
-      <CorrectedText text={inputText} />
+      <p>
+        <strong>Corrected:</strong> {correctedText}
+      </p>
+      <p>
+        <strong>Corrections Made:</strong> {count}
+      </p>
     </div>
   );
 }
