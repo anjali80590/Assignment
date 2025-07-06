@@ -1,34 +1,48 @@
-// q11/App.jsx
-import { useState } from "react";
-import Top from "./components/Question11/Top";
-import { ChakraProvider, Box, Input } from "@chakra-ui/react";
-
+import AuthProvider from "./components/Practice/context/AuthContext";
+import Page from "./components/Practice/context/Page";
+import React from 'react';
 function App() {
-  const [name, setName] = useState("");
-
   return (
-    <ChakraProvider>
-      <Box p="4">
-        <Input
-          placeholder="Enter your name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          mb="4"
-        />
-        <Top name={name} />
-      </Box>
-    </ChakraProvider>
+    <div>
+      <AuthProvider>
+        <Page />
+      </AuthProvider>
+    </div>
   );
 }
-
 export default App;
+// q11/App.jsx
+// import { useState } from "react";
+// import Top from "./components/Question11/Top";
+// import { ChakraProvider, Box, Input } from "@chakra-ui/react";
+
+// function App() {
+//   const [name, setName] = useState("");
+
+//   return (
+//     <ChakraProvider>
+//       <Box p="4">
+//         <Input
+//           placeholder="Enter your name"
+//           value={name}
+//           onChange={(e) => setName(e.target.value)}
+//           mb="4"
+//         />
+//         <Top name={name} />
+//       </Box>
+//     </ChakraProvider>
+//   );
+// }
+
+// export default App;
+// App.jsx
 
 // q12/App.jsx
 // import { ChakraProvider, Box } from "@chakra-ui/react";
-// import { ThemeProvider } from "./ThemeContext";
+// import { ThemeProvider } from "./components/Question12/ThemeContext";
 // import Header from "./components/Question12/Header";
-// import Footer from "./components/Question15/Footer";
-// import Main from "./components/Question13/Main";
+// import Footer from "./components/Question12/Footer";
+// import Main from "./components/Question12/Main";
 
 // function App() {
 //   return (
@@ -50,7 +64,7 @@ export default App;
 
 // q13/App.jsx
 // import { ChakraProvider, Box } from "@chakra-ui/react";
-// import { AuthProvider } from "./AuthContext";
+// import { AuthProvider } from "./components/Question13/AuthContext";
 // import Navbar from "./components/Question13/Navbar";
 // import Main from "./components/Question13/Main";
 // import Footer from "./components/Question13/Footer";

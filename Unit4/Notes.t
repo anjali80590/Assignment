@@ -2,7 +2,7 @@
 # 2 undertanding component props and virtual dom 
 # 3 state management technique and usestate 
 # 4 react with api and axios library 
-#  5  useEffect  hook
+#  5 useEffect  hook
 # 6 React lifecycle Methods 
 # 7 Context API in react 
 # 8 Exploring routing in react 
@@ -31,9 +31,11 @@ Is React a Library or Framework?
 
 File and Folder structure 
 # node_modules: Contains all downloaded npm packages your project depends on; auto-created after installation.
-# package.json: Holds project name, scripts, and dependency list required to run the app.
-# package-lock.json: Automatically generated file that locks exact versions of installed packages for consistency.
+# package.json: Holds information about project like  project name, scripts, and dependency list required to run the app.
+# package-lock.json: It locks the exact versions of every installed package and its dependencies, ensuring consistency across environments.
 # npm install: Installs all dependencies listed in package.json and creates node_modules and package-lock.json.
+
+
 
 # A Single Page Application is a web app that loads a single HTML page
 # and dynamically updates the content without reloading the entire page.
@@ -312,3 +314,4 @@ Benefits:
 
 Dynamic Routing
 # Allows routes with dynamic segments (e.g., /product/:id) to load specific conte
+

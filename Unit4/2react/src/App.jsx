@@ -1,17 +1,68 @@
-import React from 'react'
-// import P from './Components/P'
-import UserCard from './Components/UserCard'
+// import React from "react";
+// import Navbar from "./Navbar";
+// import { Routes ,Route} from "react-router-dom";
+
+// import Home from "./Home";
+// import About from "./About";
+// import Contact from "./Contact";
+// import Blogdetails from "./Blogdetails";
+
+// function App() {
+//   return (
+//     <div>
+//     <Navbar/>
+//     <Routes>
+//       <Route path='/' element={<Home/>}/>
+//       <Route path='/about' element={<About/>}/>
+//       <Route path='/contact' element={<Contact/>}/>
+//       <Route path='/posts/:id' element={<Blogdetails/>}/>
+
+      
+//     </Routes>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+import React, { useState } from "react";
 
 function App() {
+  let [store, setStore] = useState(["riya", "nisi", "siya"]);
+
   return (
     <div>
-      {/* <P/> */}
-      <UserCard/>
+      <ul>
+        {store.map((item, i) => (
+          <li
+            key={i}
+            style={{ color:i% 2 ==0 ?"green" : "blue" }}
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
+
+
+// import React from 'react'
+// // import P from './Components/P'
+// import UserCard from './Components/UserCard'
+
+// function App() {
+//   return (
+//     <div>
+//       {/* <P/> */}
+//       <UserCard/>
+//     </div>
+//   )
+// }
+
+// export default App
 // // export default App;
 // import React from "react";
 // import Question11 from "./Components/Question11";
@@ -64,7 +115,6 @@ export default App
 // }
 
 // export default App;
-
 
 // import React from 'react'
 // // import Question11 from './Components/Question11'

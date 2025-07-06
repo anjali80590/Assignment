@@ -22,6 +22,7 @@
 # Q15: Build a React blog viewer that displays blog titles and toggles their content on click using useState.
 
 # Q16: Create a dynamic ProductCard component with props, form input, and validation for name, price, image, and discount.
+# learning ...form in usercard divwritename then divwritename
 
 # Q17: Build a UserList in React that renders UserCards from a validated form and updates the list efficiently using the virtual DOM.
 

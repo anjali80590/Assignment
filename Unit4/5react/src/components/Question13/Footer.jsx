@@ -8,9 +8,12 @@ const Footer = () => {
 
   return (
     <Box p="4" bg="gray.300" textAlign="center">
-      {isLoggedIn ? "Welcome, User" : "Please log in"}
+    <>{isLoggedIn ? "Welcome, User" : "Please log in"}</>
     </Box>
   );
 };
 
 export default Footer;
+
+
+

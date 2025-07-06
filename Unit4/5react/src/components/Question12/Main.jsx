@@ -19,3 +19,7 @@ const Main = () => {
 };
 
 export default Main;
+
+
+
+// children whatever want wraps up with taht functionality 
