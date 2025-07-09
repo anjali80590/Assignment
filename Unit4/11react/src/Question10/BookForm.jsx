@@ -24,7 +24,7 @@ function BookForm() {
 
     dispatch(addBook(newBook));
 
-    // Clear the form
+ 
     setTitle("");
     setAuthor("");
     setGenre("");

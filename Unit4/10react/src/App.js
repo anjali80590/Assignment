@@ -5,15 +5,17 @@ import Counter from './components/question7/Counter'
 import ToggleMessage from './components/question8/ToggleMessage'
 import FormWithReducer from './components/question9/FormWithReducer'
 import CollegeForm from './components/question10/CollegeForm'
+import Theme from './components/question6/Theme'
 
 function App() {
   return (
     <div>
-      {/* <ThemeToggle/> */}
+      <ThemeToggle/>
       {/* <Counter/> */}
       {/* <ToggleMessage/> */}
       {/* <FormWithReducer/> */}
-      <CollegeForm/>
+      {/* <CollegeForm/> */}
+      <Theme/>
     </div>
   )
 }

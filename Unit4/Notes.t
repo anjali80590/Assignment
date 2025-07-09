@@ -315,3 +315,14 @@ Benefits:
 Dynamic Routing
 # Allows routes with dynamic segments (e.g., /product/:id) to load specific conte
 
+
+
+# UserReducer 
+# it is used to manage state like usestate and but its better for complex login when state has multple values 
+# it is used to manage state with multuple values 
+# reducer: A function that handles all the logic
+# initialState: The default value for the state
+# dispatch: A function you call with an action
+# action: An object like { type: 'INCREMENT' }
+# state: The current state (you don’t update directly)
+

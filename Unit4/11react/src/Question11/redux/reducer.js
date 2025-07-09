@@ -1,4 +1,3 @@
-// redux/reducer.js
 
 import {
   FETCH_MATCHES_REQUEST,

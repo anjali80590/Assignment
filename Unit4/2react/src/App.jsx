@@ -1,3 +1,21 @@
+import React from 'react'
+import P from './Practice/P'
+
+function App() {
+  return (
+    <div>
+      <P/>
+
+      
+    </div>
+  )
+}
+
+export default App
+
+
+
+
 // import React from "react";
 // import Navbar from "./Navbar";
 // import { Routes ,Route} from "react-router-dom";
@@ -25,28 +43,28 @@
 
 // export default App;
 
-import React, { useState } from "react";
+// import React, { useState } from "react";
 
-function App() {
-  let [store, setStore] = useState(["riya", "nisi", "siya"]);
+// function App() {
+//   let [store, setStore] = useState(["riya", "nisi", "siya"]);
 
-  return (
-    <div>
-      <ul>
-        {store.map((item, i) => (
-          <li
-            key={i}
-            style={{ color:i% 2 ==0 ?"green" : "blue" }}
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+//   return (
+//     <div>
+//       <ul>
+//         {store.map((item, i) => (
+//           <li
+//             key={i}
+//             style={{ color:i% 2 ==0 ?"green" : "blue" }}
+//           >
+//             {item}
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// }
 
-export default App;
+// export default App;
 
 
 // import React from 'react'

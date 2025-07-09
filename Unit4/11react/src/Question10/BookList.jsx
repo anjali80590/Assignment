@@ -5,8 +5,6 @@ import BookItem from "./BookItem";
 function BookList() {
   const books = useSelector((state) => state.books);
   const filters = useSelector((state) => state.filters);
-
-  // Apply filters
   const filteredBooks = books.filter((book) => {
     const genreMatch = filters.genre ? book.genre === filters.genre : true;
     const authorMatch = filters.author ? book.author === filters.author : true;
