@@ -1,16 +1,25 @@
 import React, { useReducer } from "react";
 
-const initialState = { email: "", password: "", isAuth: false };
+const initialState = {
+  email: "",
+  password: "",
+  isAuth: false,
+};
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "email":
-    case "password":
-      return { ...state, [action.type]: action.payload };
+    case "set_email":
+      return { ...state, email: action.payload };
+
+    case "set_password":
+      return { ...state, password: action.payload };
+
     case "login":
       return { ...state, isAuth: true };
+
     case "logout":
       return initialState;
+
     default:
       throw new Error("Invalid action type");
   }
@@ -30,15 +39,17 @@ export default function Auth() {
         <>
           <input
             placeholder="Email"
+            value={state.email}
             onChange={(e) =>
-              dispatch({ type: "email", payload: e.target.value })
+              dispatch({ type: "set_email", payload: e.target.value })
             }
           />
           <input
             type="password"
             placeholder="Password"
+            value={state.password}
             onChange={(e) =>
-              dispatch({ type: "password", payload: e.target.value })
+              dispatch({ type: "set_password", payload: e.target.value })
             }
           />
           <button onClick={() => dispatch({ type: "login" })}>Login</button>

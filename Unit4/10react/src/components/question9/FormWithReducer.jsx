@@ -4,6 +4,7 @@ const initialState = {
   email: "",
   password: "",
   submitted: false,
+  users: [],
 };
 
 const reducer = (state, action) => {
@@ -11,12 +12,25 @@ const reducer = (state, action) => {
     case "email":
     case "password":
       return { ...state, [action.type]: action.payload };
+
     case "submit":
-      return { ...state, submitted: true };
+      const newUser = {
+        email: state.email,
+        password: state.password,
+      };
+      return {
+        ...state,
+        users: [...state.users, newUser],
+        submitted: true,
+        email: "",
+        password: "",
+      };
+
     case "reset":
       return initialState;
+
     default:
-      throw new Error("invalid action type");
+      throw new Error("Invalid action type");
   }
 };
 
@@ -25,6 +39,7 @@ export default function FormWithReducer() {
 
   return (
     <div style={{ padding: "2rem" }}>
+      <h3>📝 Form</h3>
       <input
         type="email"
         placeholder="Email"
@@ -46,8 +61,14 @@ export default function FormWithReducer() {
         <div>No details found</div>
       ) : (
         <div>
-          <div>User Email: {state.email}</div>
-          <div>User Password: {state.password}</div>
+          <h4>✅ Submitted Users:</h4>
+          <ul>
+            {state.users.map((user, index) => (
+              <li key={index}>
+                Email: {user.email}, Password: {user.password}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

@@ -1,4 +1,6 @@
 # Save the Redux definitions into a .txt file
+
+usereducer is a react hook that helps to manage complex state using function called a reducer 
 =====================
 🟥 REDUX - DEFINITIONS
 =====================
@@ -30,8 +32,15 @@ When we dispatch an action, Redux sends it to the reducer to update the state.
 Middleware is used in Redux to handle side effects like API calls, logging, etc.
 It runs between dispatching an action and the moment it reaches the reducer.
 Example: redux-thunk (for async operations).
+applyMiddleware is a Redux function used to enable middleware like redux-thunk.
 
+redux thunk 
+redux-thunk is middleware that allows you to write action creators that return a function instead of an object.
+This function can contain asynchronous code, such as fetching data from an API.
 
+legacy_createStore is the older way to create a Redux store before Redux Toolkit.handle combinereducer middlewares need to manually setup combierreducers applymiddlewares 
+
+combineReducers merges multiple reducer functions into one single root reducer.
 ==========================
 🟩 REDUX TOOLKIT (RTK)
 ==========================
@@ -111,10 +120,10 @@ const [state, dispatch] = useReducer(reducer, initialState);
 - useDispatch: Sends actions to update state.
 - useSelector: Reads values from the Redux state.
 - useReducer: Handles complex local state logic in a component.
-"""
 
-file_path = "/mnt/data/redux_definitions.txt"
-with open(file_path, "w") as file:
-    file.write(redux_text)
 
-file_path
+
+
+# userducer 11 
+# redux 12 
+# reduxtoolkit 13

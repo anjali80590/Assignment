@@ -1,86 +1,62 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function CountrySearch() {
   const [query, setQuery] = useState("");
   const [countries, setCountries] = useState([]);
+  const [filtered, setFiltered] = useState([]);
   const [page, setPage] = useState(1);
-  const [usePagination, setUsePagination] = useState(true);
-  const queryRef = useRef("");
 
-  const getCountries = async () => {
-    try {
-      const res = await axios.get(`https://api.first.org/data/v1/countries`);
-      const entries = Object.entries(res.data.data);
-      const filtered = entries.filter(([code, country]) =>
-        country.country.toLowerCase().includes(queryRef.current.toLowerCase())
-      );
-      setCountries(filtered);
-    } catch (err) {
-      console.log("Error fetching countries");
-    }
-  };
+  const itemsPerPage = 10;
 
   useEffect(() => {
-    const debounce = setTimeout(() => {
-      queryRef.current = query;
-      getCountries();
+    axios.get("https://api.first.org/data/v1/countries").then((res) => {
+      const entries = Object.entries(res.data.data);
+      setCountries(entries);
+      setFiltered(entries);
+    });
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const result = countries.filter(([_, country]) =>
+        country.country.toLowerCase().includes(query.toLowerCase())
+      );
+      setFiltered(result);
       setPage(1);
     }, 500);
 
-    return () => clearTimeout(debounce);
-  }, [query]);
+    return () => clearTimeout(timer);
+  }, [query, countries]);
 
-  const itemsPerPage = 10;
+  const totalPages = Math.ceil(filtered.length / itemsPerPage);
   const start = (page - 1) * itemsPerPage;
-  const paginated = countries.slice(start, start + itemsPerPage);
-
-  const visibleItems = usePagination ? paginated : countries;
+  const paginated = filtered.slice(start, start + itemsPerPage);
 
   return (
     <div style={{ padding: "2rem" }}>
-      <h2>Country Search</h2>
+      <h2>🌍 Country Search (Debounced)</h2>
+
       <input
         type="text"
-        placeholder="Type country..."
+        placeholder="Search country..."
+        value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      <div style={{ margin: "1rem 0" }}>
-        <label>
-          <input
-            type="checkbox"
-            checked={usePagination}
-            onChange={() => setUsePagination(!usePagination)}
-          />{" "}
-          Use Pagination
-        </label>
-      </div>
+
       <ul>
-        {visibleItems.map(([code, country]) => (
+        {paginated.map(([code, country]) => (
           <li key={code}>{country.country}</li>
         ))}
       </ul>
-      {usePagination && (
-        <div style={{ marginTop: "1rem" }}>
-          <button
-            onClick={() => setPage((p) => Math.max(p - 1, 1))}
-            disabled={page === 1}
-          >
-            Prev
-          </button>
-          <span style={{ margin: "0 1rem" }}>Page: {page}</span>
-          <button
-            onClick={() =>
-              setPage((p) =>
-                p < Math.ceil(countries.length / itemsPerPage) ? p + 1 : p
-              )
-            }
-            disabled={start + itemsPerPage >= countries.length}
-          >
-            Next
-          </button>
-        </div>
-      )}
+
+      <div style={{ marginTop: "1rem" }}>
+        <button onClick={() => setPage((p) => Math.max(p - 1, 1))}>Prev</button>
+        <span style={{ margin: "0 10px" }}>Page {page}</span>
+        <button onClick={() => setPage((p) => Math.min(p + 1, totalPages))}>
+          Next
+        </button>
+      </div>
     </div>
   );
 }

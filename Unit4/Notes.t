@@ -225,7 +225,7 @@ useffect hook
 React lifecycle 
 #The React Lifecycle refers to the series of phases that a component goes through from creation to removal in the DOM.
 Three Phases 
-Mounting: When a component is first created and added to the DOM.
+Mounting: When a component is first created and added to the DOM. 
 Updating: When a component re-renders due to state or props changes.
 Unmounting: When a component is removed from the DOM (cleanup happens here)
 # useEffect(() => {
@@ -236,6 +236,8 @@ Unmounting: When a component is removed from the DOM (cleanup happens here)
 #    🟡 Updating logic when 'count' changes
 # }, [count]);
 
+# runs on every rerender clean up before everyrerender 
+#  If we don’t use clearInterval, the timer will keep running even after the component is gone, which is bad for memor
 
 
 Axios 
@@ -326,3 +328,106 @@ Dynamic Routing
 # action: An object like { type: 'INCREMENT' }
 # state: The current state (you don’t update directly)
 
+
+✅ Why Performance Optimization?
+# - Avoid unnecessary re-renders
+# - Improve load time and responsiveness
+# - Do less work at the right time
+
+State/Prop Changes
+        ↓
+  1. Render Phase        → JSX evaluated to create new Virtual DOM
+  2. Reconciliation      → Compare new Virtual DOM with old one (diffing)
+  3. Commit Phase        → Apply only the actual changes to Real DOM
+Every state change → triggers a re-render of that component.
+
+Child components also re-render unless:
+React.memo is used
+Props havent changed
+
+# uncessary rerendering 
+Use React.memo() to avoid re-rendering child components if props haven’t changed
+Use useCallback() to memoize functions so they don’t change on every render
+Use useMemo() to memoize expensive calculations
+
+⚙️ React Rendering Phases
+# 1. Render Phase: Rebuilds the virtual DOM
+# 2. Reconciliation Phase: Compares old vs new virtual DOM
+# 3. Commit Phase: Applies real DOM updates + runs useEffect
+
+🚫 What Causes Unnecessary Work?
+# - Re-rendering unchanged components
+# - Recalculating values/functions every render
+# - Passing new function references as props
+# - Loading too much data/images at once
+
+🖼️ Other Performance Techniques
+# - Lazy load images on scroll
+# - Load data on demand (pagination, infinite scroll)
+# - Code splitting with React.lazy and Suspense
+# - Virtualize long lists using libraries like react-window
+
+usecallback 
+# useCallback is a React hook that returns a memoized (cached) version of a function, so it doesn’t get recreated on every render unless its dependencies change.
+
+usememo 
+# useMemo is a hook that memoizes the result of a computation, so it only recalculates when its dependencies change.
+
+useref 
+# useRef is a hook that lets you persist values between renders without causing re-renders. It's commonly used to access DOM elements or store mutable values.
+
+custom Hooks
+# A custom hook in React is a reusable function starting with use that lets you share logic (like form handling, API calls, toggles) across components using built-in hooks like useState and useEffect
+# custom hook 
+# start with use just another function 
+
+Uses 
+# react components often repeats code 
+# Fetching data from an API
+# Handling forms
+# Toggling booleans
+# Managing timers
+
+
+how to create 
+# Always start with use
+# Can use other hooks (useState, useEffect, etc.)
+# Return data or functions
+
+
+# write same logic and every component 
+# wirte logic once use it many component 
+
+
+
+TYPESCRIPT 
+# browser cannot understand typescript  when try to run it it converts into js 
+
+
+
+
+
+
+# 1 intro to react 
+# 2 understanding component 
+# 3 state management
+# 4 react with axios 
+
+# 5 exploring useEffect Hook 
+# 6 intro to vite and react lifcyle
+# 7 context api 
+# 8 expolring routing in react 
+
+# 9 useref pagination 
+# 10 advnace state managment 
+# 11 intro to redux 
+# 12advance redux 
+
+# 13 modren redux with reducer 
+# 14 buidling application 1 
+# 15 building applciation 2 
+# 16 performnace optmisation 
+# 17 custom hooks 
+# 18 typescript 
+# 19 typescript 2 
+# 20 AI 
