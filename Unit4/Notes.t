@@ -431,3 +431,4 @@ TYPESCRIPT
 # 18 typescript 
 # 19 typescript 2 
 # 20 AI 
+npx create-react-app 18react --template typescript
