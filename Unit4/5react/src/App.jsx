@@ -1,16 +1,26 @@
-import AuthProvider from "./components/Practice/context/AuthContext";
-import Page from "./components/Practice/context/Page";
-import React from 'react';
+// import AuthProvider from "./components/Practice/context/AuthContext";
+// import Page from "./components/Practice/context/Page";
+// import React from 'react';
+// function App() {
+//   return (
+//     <div>
+//       <AuthProvider>
+//         <Page />
+//       </AuthProvider>
+//     </div>
+//   );
+// }
+// export default App;
+import React from 'react'
+import P from './components/P'
+
 function App() {
   return (
-    <div>
-      <AuthProvider>
-        <Page />
-      </AuthProvider>
-    </div>
-  );
+    <div><P/></div>
+  )
 }
-export default App;
+
+export default App
 // q11/App.jsx
 // import { useState } from "react";
 // import Top from "./components/Question11/Top";

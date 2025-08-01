@@ -1,0 +1,6 @@
+{
+  "platform": "linux",
+  "totalMemory": "16 GB",
+  "freeMemory": "8 GB",
+  "cpuModel": "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz"
+}

@@ -1,14 +1,15 @@
 #  1 intro to React with jsx and babel 
 # 2 undertanding component props and virtual dom 
 # 3 state management technique and usestate 
-# 4 react with api and axios library 
-#  5 useEffect  hook
+# 4 react with api and axios library   2 hours max
+
+#  5 useEffect  hook    2hours max 
 # 6 React lifecycle Methods 
 # 7 Context API in react 
 # 8 Exploring routing in react 
 
 # 9 useref and aplying pagination in reactjs 
-# 10 advance state management with userreducer 
+# 10 advance state management with userreducer  4 hours 
 # 11intordcution to redux
 # 12 advance redux and middle ware
 
@@ -50,7 +51,7 @@ File and Folder structure
 # - React Router enables client-side routing (navigation without page reloads).
 
 # 🔵 SPA Rendering Types
-✅ Client-Side Rendering (CSR)
+ Client-Side Rendering (CSR)
 # - Page renders in the browser after JavaScript loads.
 # - Initially shows a blank page, then fills content via JavaScript.
 # - Slower initial load on slow networks.
@@ -58,7 +59,7 @@ File and Folder structure
 # - Very fast navigation after the first load.
 # - Common in Create React App and most SPAs.
 
-✅ Server-Side Rendering (SSR)
+ Server-Side Rendering (SSR)
 # - Page is pre-rendered on the server before being sent to the browser.
 # - Content is visible immediately (better first impression).
 # - Faster initial load, especially for new visitors.
@@ -75,6 +76,7 @@ What is Babel?
 # In React, Babel converts JSX into React.createElement calls.
 
 What is JSX?
+# js is the plain js code 
 # JSX stands for JavaScript XML. It allows you to write HTML-like code inside JavaScript.
 # JSX makes it easier to write and visualize UI components.
 
@@ -315,7 +317,7 @@ Benefits:
 # It returns an object containing key-value pairs of the dynamic segments.
 
 Dynamic Routing
-# Allows routes with dynamic segments (e.g., /product/:id) to load specific conte
+# Allows routes with dynamic segments  to load specific conte
 
 
 
@@ -373,8 +375,13 @@ usecallback
 usememo 
 # useMemo is a hook that memoizes the result of a computation, so it only recalculates when its dependencies change.
 
+# deoubncing is a technique where function is delayed from running until after a short period of inactivity like user stops typing without dencouning a functions runs on everykeystore with deouncing function waits miliseonds after use stop typing then runs  imporve preformance by reducing uncessary function calls 
+
+
 useref 
 # useRef is a hook that lets you persist values between renders without causing re-renders. It's commonly used to access DOM elements or store mutable values.
+# usestate cause rerender when value change 
+# useref does not cause rerender when updates 
 
 custom Hooks
 # A custom hook in React is a reusable function starting with use that lets you share logic (like form handling, API calls, toggles) across components using built-in hooks like useState and useEffect
@@ -417,8 +424,9 @@ TYPESCRIPT
 # 6 intro to vite and react lifcyle
 # 7 context api 
 # 8 expolring routing in react 
-
 # 9 useref pagination 
+
+
 # 10 advnace state managment 
 # 11 intro to redux 
 # 12advance redux 
@@ -432,3 +440,117 @@ TYPESCRIPT
 # 19 typescript 2 
 # 20 AI 
 npx create-react-app 18react --template typescript
+# Save the Redux definitions into a .txt file
+
+usereducer is a react hook that helps to manage complex state using function called a reducer 
+=====================
+🟥 REDUX - DEFINITIONS
+=====================
+
+1. Redux:
+Redux is a JavaScript library for managing application state in a centralized way.
+It is used mostly with React for predictable state updates.
+
+2. Redux Store:
+The store is an object that holds the entire state of your application.
+It is created using createStore or configureStore (Redux Toolkit).
+There is only ONE store in a Redux app.
+
+3. Action:
+An action is a plain JavaScript object that describes what happened.
+It must have a 'type' property.
+Example: { type: 'INCREMENT' }
+
+4. Reducer:
+A reducer is a pure function that takes the current state and an action,
+and returns a new state based on the action type.
+Reducers must not mutate the original state.
+
+5. Dispatch:
+dispatch() is a method used to send actions to the Redux store.
+When we dispatch an action, Redux sends it to the reducer to update the state.
+
+6. Middleware:
+Middleware is used in Redux to handle side effects like API calls, logging, etc.
+It runs between dispatching an action and the moment it reaches the reducer.
+Example: redux-thunk (for async operations).
+applyMiddleware is a Redux function used to enable middleware like redux-thunk.
+
+redux thunk 
+redux-thunk is middleware that allows you to write action creators that return a function instead of an object.
+This function can contain asynchronous code, such as fetching data from an API.
+
+legacy_createStore is the older way to create a Redux store before Redux Toolkit.handle combinereducer middlewares need to manually setup combierreducers applymiddlewares 
+
+combineReducers merges multiple reducer functions into one single root reducer.
+
+ REDUX TOOLKIT (RTK)
+
+
+1. Redux Toolkit:
+Redux Toolkit is the official, recommended way to write Redux logic.
+It reduces boilerplate and simplifies store configuration.
+
+2. configureStore():
+This function creates a Redux store with good default settings.
+It includes Redux Thunk by default.
+Usage: const store = configureStore({ reducer: yourReducer })
+
+3. createSlice():
+It helps you create a reducer and its actions in one go.
+It automatically creates action creators for each reducer function.
+
+4. createAsyncThunk():
+This is used to handle async operations like API requests.
+It works with extraReducers inside createSlice.
+
+
+ REACT-REDUX HOOKS
+
+
+1. <Provider store={store}>
+This React component is used to give access to the Redux store throughout your app.
+It should wrap your <App /> component.
+
+2. useDispatch():
+A React hook from react-redux used to dispatch actions inside a functional component.
+Usage: const dispatch = useDispatch();
+Then: dispatch(increment());
+
+3. useSelector():
+A React hook from react-redux used to read values from the Redux store.
+Usage: const count = useSelector(state => state.counter.value);
+
+
+
+ useReducer Hook (React)
+1. useReducer:
+A React hook similar to Redux that is used to manage local component state using reducers.
+It is useful when the state logic is complex (like multiple conditions).
+2. Syntax:
+const [state, dispatch] = useReducer(reducerFunction, initialState);
+3. Example:
+
+const initialState = { count: 0 };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'INCREMENT':
+      return { count: state.count + 1 };
+    case 'DECREMENT':
+      return { count: state.count - 1 };
+    default:
+      return state;
+  }
+}
+
+const [state, dispatch] = useReducer(reducer, initialState);
+- Redux: Used for managing global app state.
+- Redux Toolkit: Makes Redux easy and boilerplate-free.
+- Provider: Makes the Redux store available to all components.
+- useDispatch: Sends actions to update state.
+- useSelector: Reads values from the Redux state.
+- useReducer: Handles complex local state logic in a component.
+
+
+

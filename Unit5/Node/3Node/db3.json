@@ -1,0 +1,10 @@
+{
+  "dishes": [
+    {
+      "id": 1,
+      "name": "Burger",
+      "price": 120,
+      "category": "Fast Food"
+    }
+  ]
+}
