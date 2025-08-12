@@ -69,3 +69,11 @@ exports.deleteAddress = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+
+
+// - createUser: Creates a new user.
+// - addAddress: Adds a referenced address to a user.
+// - getUserDetails: Retrieves user details with populated addresses.
+// - getUserSummary: Aggregates total users, addresses, and address count per user.
+// - deleteAddress: Removes a specific address from both user and address collection.

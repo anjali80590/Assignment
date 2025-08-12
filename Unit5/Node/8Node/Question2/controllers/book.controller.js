@@ -91,3 +91,10 @@ module.exports = {
   updateBook,
   deleteBook,
 };
+// This controller manages Book rental operations and maintenance:
+// - addBook: Adds a new book to the system.
+// - rentBook: Associates a book with a user (book is rented).
+// - returnBook: Removes the association of a rented book from a user.
+// - bookRenters: Retrieves the list of users who rented a specific book.
+// - updateBook: Updates book details.
+// - deleteBook: Deletes a book and removes its references from all users.

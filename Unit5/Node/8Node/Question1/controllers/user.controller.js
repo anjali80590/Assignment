@@ -10,3 +10,6 @@ const addUser = async (req, res) => {
 };
 
 module.exports = { addUser };
+
+// This controller handles basic User operations:
+// - addUser: Creates a new user and returns the created user data

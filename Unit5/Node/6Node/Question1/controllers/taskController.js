@@ -1,5 +1,6 @@
 const Task = require("../models/Task");
 
+// create a new task and save in database
 exports.createTask = async (req, res) => {
   try {
     const task = await Task.create(req.body);
@@ -23,6 +24,7 @@ exports.getTasks = async (req, res) => {
   }
 };
 
+// update by specific id 
 exports.updateTask = async (req, res) => {
   try {
     const updated = await Task.findByIdAndUpdate(req.params.id, req.body, {
@@ -44,3 +46,7 @@ exports.deleteTask = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+
+
+

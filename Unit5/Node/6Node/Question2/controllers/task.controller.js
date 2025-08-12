@@ -1,5 +1,6 @@
 const Task = require("../models/task.model");
 
+// - createTask: Adds a new task with a unique title.
 exports.createTask = async (req, res) => {
   try {
     const existing = await Task.findOne({ title: req.body.title });
@@ -12,7 +13,7 @@ exports.createTask = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
+// - getTasks: Retrieves tasks filtered by priority and completion status.
 exports.getTasks = async (req, res) => {
   try {
     const { priority, isCompleted } = req.query;
@@ -27,26 +28,27 @@ exports.getTasks = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
+// - updateTask: Updates a task by ID and sets completionDate if marked completed.
+// - updateTask: Updates a task by ID and sets completionDate if marked completed.
 exports.updateTask = async (req, res) => {
   try {
-    const { id } = req.params;
-    const updates = req.body;
-
-    if (updates.isCompleted === true || updates.isCompleted === "true") {
-      updates.completionDate = new Date();
+    if (req.body.isCompleted === true || req.body.isCompleted === "true") {
+      req.body.completionDate = new Date();
     }
 
-    const task = await Task.findByIdAndUpdate(id, updates, { new: true });
+    const updated = await Task.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
 
-    if (!task) return res.status(404).json({ message: "Task not found" });
+    if (!updated) return res.status(404).json({ message: "Task not found" });
 
-    res.status(200).json(task);
+    res.status(200).json(updated);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
+// - deleteTasks: Deletes tasks filtered by a specific priority.
 exports.deleteTasks = async (req, res) => {
   try {
     const { priority } = req.query;
@@ -59,3 +61,11 @@ exports.deleteTasks = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+
+
+
+// groups document by speficifed key and perfom aggregations like sum 
+// lookup join document from another collection 
+// unwind convert array field into multiple documents 
+

@@ -1,5 +1,5 @@
 const Library = require("../models/library.model");
-
+// - addBook: Adds a new book to the library.
 const addBook = async (req, res) => {
   try {
     const book = await Library.create(req.body);
@@ -11,7 +11,7 @@ const addBook = async (req, res) => {
   }
 };
 
-
+// - borrowBook: Marks a book as borrowed, sets borrower name and due date.
 const borrowBook = async (req, res) => {
   try {
     const book = await Library.findById(req.params.id);
@@ -36,7 +36,7 @@ const borrowBook = async (req, res) => {
       .json({ message: "Error borrowing book", error: error.message });
   }
 };
-
+// - returnBook: Returns a book, resets borrow info, and calculates overdue fees.
 const returnBook = async (req, res) => {
   try {
     const book = await Library.findById(req.params.id);
@@ -67,7 +67,7 @@ const returnBook = async (req, res) => {
   }
 };
 
-
+// - getBooks: Retrieves books filtered by status or title.
 const getBooks = async (req, res) => {
   try {
     const { status, title } = req.query;
@@ -83,7 +83,7 @@ const getBooks = async (req, res) => {
       .json({ message: "Error fetching books", error: error.message });
   }
 };
-
+// - deleteBook: Deletes a book if it's not currently borrowed.
 const deleteBook = async (req, res) => {
   try {
     const book = await Library.findById(req.params.id);

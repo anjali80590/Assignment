@@ -105,3 +105,10 @@ exports.deleteProfile = async (req, res, next) => {
     next(err);
   }
 };
+// This controller handles User operations with embedded profiles:
+// - addUser: Creates a new user.
+// - addProfile: Adds a new embedded profile to a user if not already existing.
+// - getUsers: Retrieves all users or filters users by profile name.
+// - search: Finds a user by name and checks for a specific profile.
+// - updateProfile: Updates the URL of a specific embedded profile.
+// - deleteProfile: Deletes an embedded profile from a user.

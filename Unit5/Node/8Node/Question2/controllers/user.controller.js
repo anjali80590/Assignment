@@ -21,3 +21,5 @@ const userRentals = async (req, res) => {
 };
 
 module.exports = { addUser, userRentals };
+// - addUser: Creates a new user.
+// - userRentals: Gets a user and populates the books they have rented.

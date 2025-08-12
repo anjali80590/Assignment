@@ -135,3 +135,17 @@ exports.getTotalDistance = async (req, res, next) => {
     next(err);
   }
 };
+// This controller handles Vehicle and Trip-related operations:
+// - createVehicle: Creates a new vehicle.
+// - getAllVehicles: Retrieves all vehicles.
+// - updateVehicle: Updates vehicle details by ID.
+// - deleteVehicle: Deletes a vehicle by ID.
+// - addTrip: Adds a trip to a vehicle's trip array.
+// - updateTrip: Updates a specific trip by index.
+// - deleteTrip: Deletes a trip from a vehicle by index.
+// - tripsOver200: Fetches vehicles with trips over 200 km.
+// - tripsFromCities: Fetches vehicles with trips from specified cities.
+// - tripsAfterDate: Fetches vehicles with trips starting after Jan 1, 2024.
+// - carsOrTrucks: Retrieves vehicles of type 'car' or 'truck'.
+// - getTotalDistance: Calculates total distance of all trips for a vehicle.
+

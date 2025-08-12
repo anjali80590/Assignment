@@ -34,3 +34,9 @@ const getAllProfiles = async (req, res) => {
 };
 
 module.exports = { addProfile, getAllProfiles };
+
+
+// This controller handles Profile-related operations with referenced users:
+// - addProfile: Creates a profile for a user if not already existing.
+// - getAllProfiles: Retrieves all profiles with populated user name and email.
+
