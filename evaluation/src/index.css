@@ -1,87 +1,102 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  background: #f5f6fa;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-.header{
-  background-color: rgb(47, 47, 239);
-  color: white;
+.header {
+  background: rgb(47, 47, 239);
+  color: #fff;
   padding: 15px;
   font-size: 22px;
   font-weight: bold;
   text-align: center;
 }
-.posts{
-background:white;
-max-width: 700px;
-margin: 20px auto;
-padding: 16px;
-border-radius: 8px;
-box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+.posts {
+  background: #fff;
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
-.post-title{
+
+.post-title {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.post-body {
   font-size: 14px;
   color: #555;
 }
 
-.post-footer{
+.post-footer {
   margin-top: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.user-info{
+
+.user-info {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 13px;
 }
-.avatar{
+
+.avatar {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background-color: rgb(73, 73, 239);
-  color: white;
+  background: rgb(73, 73, 239);
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
 }
-.comment-btn{
-  background-color: white;
+
+.comment-btn {
+  background: #f1f1f1;
   border: none;
   padding: 6px 10px;
   border-radius: 4px;
   cursor: pointer;
 }
-.comments{
+
+.comment-btn:hover {
+  background: #e5e5e5;
+}
+
+.comments {
   margin-top: 12px;
   padding-left: 12px;
   border-left: 3px solid #eee;
 }
-.comment{
+
+.comment {
   margin-bottom: 10px;
   font-size: 13px;
 }
-.pagination{
+
+.pagination {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 20px;
+  margin: 20px 0;
 }
-.loading{
+
+.loading {
   text-align: center;
   margin-top: 20px;
 }
-.error{
+
+.error {
   text-align: center;
   color: red;
 }
