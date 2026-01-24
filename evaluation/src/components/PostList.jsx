@@ -6,12 +6,8 @@ function PostList({ posts, users }) {
   console.log(posts);
   return (
     <div>
-      {posts.map((post) => (
-        <div key={post.id}>
-            <h3>{post.title}</h3>
-            <p>{post.body}</p>
-            <p>User Id : {post.userId}</p>
-        </div>
+      {posts.map(post=>(
+        <PostItem key={post.id} post={post} username={users[post.userId]}/>
       ))}
     </div>
   );

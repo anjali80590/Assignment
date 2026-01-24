@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import Comments from './Comments';
 
-function PostItem({posts,username}) {
+function PostItem({post,username}) {
     let[showComments,setShowComments]=useState(false);
+    console.log(showComments);
   return (
    <div className="posts">
-    <h3 className="post-title">{posts.title}</h3>
-    <p className="post-body">{posts.body}</p>
+    <h3 className="post-title">{post.title}</h3>
+    <p className="post-body">{post.body}</p>
     <div className="post-footer">
         <div className="user-info">
             <div className="avatar">
@@ -15,10 +16,10 @@ function PostItem({posts,username}) {
             <span>{username ||'Unknown user'}</span>
         </div>
         <button className="comment-btn" onClick={()=>setShowComments(prev=>!prev)}>
-            comments
+            {showComments?"Hide":"Comments"}
         </button>
     </div>
-    {showComments && <Comments postId={posts.id}/>}
+    {showComments && <Comments postId={post.id}/>}
    </div>
   )
 }
