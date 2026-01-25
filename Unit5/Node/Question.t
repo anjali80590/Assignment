@@ -1,1 +1,0 @@
-# Node.js was created before ES Modules became standard in JavaScript.
