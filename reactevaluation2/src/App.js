@@ -61,6 +61,9 @@ function App() {
       setCurrentCard((prev) => prev + 1);
     }
   };
+  console.log(wrongCount);
+  console.log(rightCount);
+  console.log(flashcards.length);
  console.log('remaning Timer',remainingTime);
   if (isSessionOver) {
     return (
